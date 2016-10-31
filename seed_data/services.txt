@@ -1,0 +1,18 @@
+dry-cleaning and laundry | drycleaninglaundry
+shipping | shipping_centers
+grocery store | grocery
+gym | gyms
+restaurant | restaurants
+coffee | coffee
+hair salon | hair
+nail salon | othersalons
+doctor | physicians
+drugstore | drugstores
+park | parks
+bank | banks
+liquor store | beer_and_wine
+convenience store | convenience
+bar | bars
+library | libraries
+DMV | departmentsofmotorvehicles
+hardware store | hardware

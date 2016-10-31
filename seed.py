@@ -10,7 +10,7 @@ def load_neighborhoods():
     print "Neighborhoods"
 
     #prevents adding duplicate entries when the file is rerun
-    User.query.delete()
+    Neighborhood.query.delete()
 
     #read file and insert data
     for row in open('seed_data/neighborhoods.txt'):
@@ -28,11 +28,11 @@ def load_services():
     print "Services"
 
     #prevents adding duplicate entries when the file is rerun
-    User.query.delete()
+    Service.query.delete()
 
     #read file and insert data
-    for row in open('seed_data/services.txt').rstrip():
-        name, yelp_code = row.split("|")
+    for row in open('seed_data/services.txt'):
+        name, yelp_code = row.rstrip().split("|")
 
         service = Service(name=name, yelp_code=yelp_code)
 

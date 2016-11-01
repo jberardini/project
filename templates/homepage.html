@@ -9,7 +9,7 @@
   My neighborhood is:
   <select name='neighborhood'>
     {% for neighborhood in neighborhoods %}
-      <option value={{ neighborhood.neighborhood_id }}> 
+      <option value="{{ neighborhood.name }}"> 
         {{ neighborhood.name }}
       </option>
     {% endfor %} 

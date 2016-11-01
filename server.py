@@ -1,10 +1,14 @@
 """Welcome to the Neighborhood"""
 
+# -*- coding: utf-8 -*-
+
 from jinja2 import StrictUndefined
 from flask import Flask, jsonify, render_template, redirect, request, flash, session
 
 from model import connect_to_db, db, User, Neighborhood, Service, FavPlace
 from flask_debugtoolbar import DebugToolbarExtension
+import os
+import requests
 
 app = Flask(__name__)
 
@@ -20,14 +24,34 @@ def index():
     return render_template('homepage.html', neighborhoods=neighborhoods,
                            services=services)
 
+def get_neighborhood(neighborhood):
+    neighborhood = "{}, San Francisco, CA".format(neighborhood)
+    print neighborhood
+    payload = {'address': neighborhood}
+    r = requests.get('https://maps.googleapis.com/maps/api/geocode/json', 
+                     params=payload)
+
+    neighborhood_info = r.json()
+
+    lat = neighborhood_info['results'][0]['geometry']['location']['lat']
+    print lat
+    lng = neighborhood_info['results'][0]['geometry']['location']['lng']
+    print lng
+
+    coordinates = [lat, lng]
+    return coordinates
+
 @app.route('/neighborhood-map')
 def show_map():
     """Shows a map of the user's neighborhood with highlighted services"""
 
     neighborhood = request.args.get('neighborhood')
-    print neighborhood
+    coordinates = get_neighborhood(neighborhood)
+    api_key=os.environ['GOOGLE_API_KEY']
 
-    return render_template('neighborhood.html')
+
+    return render_template('neighborhood.html', coordinates=coordinates, 
+                           api_key=api_key)
 
 @app.route('/user/<user_id>')
 def show_user_page(user_id):

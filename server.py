@@ -4,6 +4,7 @@ from jinja2 import StrictUndefined
 from flask import Flask, jsonify, render_template, redirect, request, flash, session
 
 from model import connect_to_db, db, User, Neighborhood, Service, FavPlace
+from flask_debugtoolbar import DebugToolbarExtension
 
 app = Flask(__name__)
 
@@ -13,11 +14,18 @@ app.secret_key = 'secret'
 def index():
     """Homepage"""
 
-    return render_template('homepage.html')
+    neighborhoods = db.session.query(Neighborhood).all()
+    services = db.session.query(Service).all()
+
+    return render_template('homepage.html', neighborhoods=neighborhoods,
+                           services=services)
 
 @app.route('/neighborhood-map')
 def show_map():
     """Shows a map of the user's neighborhood with highlighted services"""
+
+    neighborhood = request.args.get('neighborhood')
+    print neighborhood
 
     return render_template('neighborhood.html')
 
@@ -33,17 +41,61 @@ def log_in():
 
     return render_template('log-in.html')
 
-@app.route('/logged-in')
+@app.route('/logged-in', methods=['POST'])
 def process_login():
     """Processes user-inputted log-in information"""
 
-    # email = request.form.get('email')
-    # user = db.session.query(User).filter_by(email=email)
+    email = request.form.get('email')
+    password = request.form.get('password')
+    user = db.session.query(User).filter_by(email=email).all()
 
-    return redirect('/')
+    if user:
+        if user[0].password == password:
+            flash('You are now logged in.')
+            return redirect('/user/'+ str(user[0].user_id))
+        else:
+            flash('Invalid credentials.')
+            return redirect('/login')
+    else:
+        flash('We didn\'t find an account that matches that email. Sign up below')
+        return redirect('/sign-up')
 
 @app.route('/logged-out')
 def process_logout():
     """Logs user out"""
 
     return redirect('/')
+
+@app.route('/sign-up')
+def sign_up():
+    """Allows user to register for an account"""
+
+    return render_template('sign-up.html')
+
+@app.route('/process-signup', methods=['POST'])
+def process_sign_up():
+    """Processes new user sign-up"""
+
+    email = request.form.get('email')
+    password = request.form.get('password')
+    user = db.session.query(User).filter_by(email=email).all()
+
+    if not user:
+        new_user = User(email=email, password=password)
+        db.session.add(new_user)
+        db.session.commit()
+        flash('Your account has been created. Please log in.')
+        return redirect('/login')
+    else:
+        flash('There is already an account associated with that email')
+        return redirect('/sign-up')
+
+
+
+if __name__ == "__main__":
+    app.debug = True
+    connect_to_db(app) 
+    # Use the DebugToolbar
+    DebugToolbarExtension(app)
+
+    app.run(host="0.0.0.0")

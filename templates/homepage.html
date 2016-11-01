@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}Welcome to the Neighborhood{% endblock %}
+
+{% block content %}
+<h1>Welcome to the Neighborhood</h1>
+
+<form action='/neighborhood-map'>
+  My neighborhood is:
+  <select name='neighborhood'>
+    {% for neighborhood in neighborhoods %}
+      <option value={{ neighborhood.neighborhood_id }}> 
+        {{ neighborhood.name }}
+      </option>
+    {% endfor %} 
+  </select>
+  <br>
+  <br>
+  I'm looking for: <br>
+  {% for service in services %}
+    <input type='checkbox' name='service' value={{ service.service_id }}>
+    {{ service.name }}
+    <br>
+  {% endfor %}
+  <br>
+  <input type='submit' value='Go'>
+</form>
+{% endblock %}

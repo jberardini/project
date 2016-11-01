@@ -1,0 +1,29 @@
+<!doctype html>
+
+<html>
+<head>
+  <title>{% block title %} {% endblock %}</title>
+</head>
+
+<body>
+  <header>
+    {% if 'user_id' in session %}
+      <a href='/logged-out'>Log out</a>
+    {% else %}
+      <a href="/login">Log in</a>
+    {% endif %}
+  </header>
+
+  <!-- Show flashed messges -->
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      {% for message in messages %}
+        <div class='alert alert-warning'>{{ message }}</div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+
+  {% block content %}
+  {% endblock %}
+</body>
+</html>

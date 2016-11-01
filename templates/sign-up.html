@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 
-{% block title %}Log In{% endblock %}
+{% block title %}Sign Up{% endblock %}
 
 {% block content %} 
-  <h1>Log In</h1>
+  <h1>Sign Up</h1>
 
-  <form action ='/logged-in' method='POST'>
+  <form action ='/process-signup' method='POST'>
     Email: <input type='email' name='email'><br>
     Password: <input type='password' name='password'><br>
     <input type='submit' value='Submit'>

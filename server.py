@@ -8,7 +8,8 @@ from flask import Flask, jsonify, render_template, redirect, request, flash, ses
 from model import connect_to_db, db, User, Neighborhood, Service, FavPlace
 from flask_debugtoolbar import DebugToolbarExtension
 import os
-import requests
+from api_call import format_neighborhood, create_service_list, get_neighborhood
+import json
 
 app = Flask(__name__)
 
@@ -24,34 +25,24 @@ def index():
     return render_template('homepage.html', neighborhoods=neighborhoods,
                            services=services)
 
-def get_neighborhood(neighborhood):
-    neighborhood = "{}, San Francisco, CA".format(neighborhood)
-    print neighborhood
-    payload = {'address': neighborhood}
-    r = requests.get('https://maps.googleapis.com/maps/api/geocode/json', 
-                     params=payload)
-
-    neighborhood_info = r.json()
-
-    lat = neighborhood_info['results'][0]['geometry']['location']['lat']
-    print lat
-    lng = neighborhood_info['results'][0]['geometry']['location']['lng']
-    print lng
-
-    coordinates = [lat, lng]
-    return coordinates
 
 @app.route('/neighborhood-map')
 def show_map():
     """Shows a map of the user's neighborhood with highlighted services"""
 
     neighborhood = request.args.get('neighborhood')
-    coordinates = get_neighborhood(neighborhood)
+    service_ids = request.args.getlist('service')
+    
+    neighborhood = format_neighborhood(neighborhood)
+    neighborhood_location = get_neighborhood(neighborhood)
+    service_locations = create_service_list(service_ids, neighborhood)
+    print service_locations
+
     api_key=os.environ['GOOGLE_API_KEY']
 
 
-    return render_template('neighborhood.html', coordinates=coordinates, 
-                           api_key=api_key)
+    return render_template('neighborhood.html', neighborhood_location=neighborhood_location, 
+                           service_locations=json.dumps(service_locations), api_key=api_key)
 
 @app.route('/user/<user_id>')
 def show_user_page(user_id):

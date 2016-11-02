@@ -19,17 +19,39 @@
     </style>
   </head>
   <body>
+    {{ service_locations }}
     <div id="map"></div>
-    <script>
-      var map;
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBT2_xtTBzbZzHIWPUAqyWyOlxLoK1rr6s%26callback=initMap"
+    async defer></script>
+    <script type="text/j">
+      console.log('hello');
+      function test_func(data){
+        console.log(data);
+      }
+      test_func({{ service_locations }})
+      
+
       function initMap() {
-        map = new google.maps.Map(document.getElementById('map'), {
-          center: {lat: {{ coordinates[0] }}, lng: {{ coordinates[1] }}},
-          zoom: 15
-        });
+        var map;
+
+        //Display a map
+        map = new google.maps.Map(document.getElementById('map'), 
+                                  {center: {lat: {{ neighborhood_location['lat'] }}, 
+                                   lng: {{ neighborhood_location['lng'] }}},
+                                  zoom: 15
+                                  });
+
+        // var markers = {{ service_locations }};
+        // for(var key in markers) {
+        //   var position = new google.maps.LatLng(markers[key]['latitude'], 
+        //                                         markers[key]['longitude']);
+        //   marker = new google.maps.Marker({
+        //       position: position,
+        //       map: map,
+        //   });
       }
     </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key={{ api_key }}&callback=initMap"
-    async defer></script>
+
   </body>
 </html>

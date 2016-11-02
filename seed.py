@@ -32,7 +32,7 @@ def load_services():
 
     #read file and insert data
     for row in open('seed_data/services.txt'):
-        name, yelp_code = row.rstrip().split("|")
+        name, yelp_code = row.rstrip().split("| ")
 
         service = Service(name=name, yelp_code=yelp_code)
 

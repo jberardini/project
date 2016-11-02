@@ -32,17 +32,27 @@ def show_map():
 
     neighborhood = request.args.get('neighborhood')
     service_ids = request.args.getlist('service')
-    
     neighborhood = format_neighborhood(neighborhood)
-    neighborhood_location = get_neighborhood(neighborhood)
-    service_locations = create_service_list(service_ids, neighborhood)
-    print service_locations
 
+    session['neighborhood'] = neighborhood
+    session['service_ids'] = service_ids
     api_key=os.environ['GOOGLE_API_KEY']
 
 
-    return render_template('neighborhood.html', neighborhood_location=neighborhood_location, 
-                           service_locations=json.dumps(service_locations), api_key=api_key)
+    return render_template('neighborhood.html', api_key=api_key)
+
+@app.route('/info.json')
+def get_yelp_info():
+    #pull out session info
+    neighborhood = session['neighborhood']
+    service_ids = session['service_ids']
+
+    neighborhood_location = get_neighborhood(neighborhood)
+    service_locations = create_service_list(service_ids, neighborhood)
+    all_info = {'neighborhood': neighborhood_location, 
+                'services': service_locations}
+    return jsonify(all_info)
+
 
 @app.route('/user/<user_id>')
 def show_user_page(user_id):

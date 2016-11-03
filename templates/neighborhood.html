@@ -3,7 +3,7 @@
   <head>
     <style>
       #map {
-        height: 400px;
+        height: 800px;
         width: 100%;
       }
     </style>
@@ -38,6 +38,8 @@
                '<div class="window-content">' +
                    '<p><b>Name: </b>' + service.name + '</p>' +
                    '<p><b>Url: </b> <a href=' + service.url + '>Website</a></p>' +
+                   '<p><b>Add to Favorites:</b></p>' +
+                   '<img src=/static/img/like-1.png id=favorite>' +
                '</div>');
 
               bindInfoWindow(marker, map, infoWindow, html);
@@ -54,6 +56,13 @@
           });
        }
       }
+
+      function favorite() {
+        $('#favorite').attr('src', '/static/img/like.png');
+      }
+
+      // $('#favorite').on('click', favorite)
+      google.maps.event.addListener('#favorite', 'click', favorite)
      
     </script>
   </body>

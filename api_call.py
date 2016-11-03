@@ -63,6 +63,4 @@ def create_service_list(service_ids, neighborhood):
         display_info = get_service(service_id, neighborhood)
         services[service_id] = display_info
 
-    print services
-
     return services

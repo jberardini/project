@@ -45,16 +45,24 @@ def get_service(service_id, neighborhood):
 
     service_info = r.json()
     session.close()
+    print service_info
     lat_long =  service_info['businesses'][0]['location']['coordinate']
-    return lat_long
+    name =  service_info['businesses'][0]['name']
+    url = service_info['businesses'][0]['url']
+
+    display_info = {'name': name, 'url': url, 'lat': lat_long['latitude'], 
+                   'lng': lat_long['longitude']}
+
+    return display_info
 
 def create_service_list(service_ids, neighborhood):
     """Loops through each service requested and adds the result to a dictionary"""
 
     services = {}
     for service_id in service_ids:
-        lat_long = get_service(service_id, neighborhood)
-        services[service_id] = {'lat': lat_long['latitude'],
-                                'lng': lat_long['longitude']}
+        display_info = get_service(service_id, neighborhood)
+        services[service_id] = display_info
+
+    print services
 
     return services

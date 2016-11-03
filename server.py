@@ -38,12 +38,11 @@ def show_map():
     session['service_ids'] = service_ids
     api_key=os.environ['GOOGLE_API_KEY']
 
-
     return render_template('neighborhood.html', api_key=api_key)
 
 @app.route('/info.json')
 def get_yelp_info():
-    #pull out session info
+    "Gets info from yelp and geocode info from Google"
     neighborhood = session['neighborhood']
     service_ids = session['service_ids']
 
@@ -51,6 +50,7 @@ def get_yelp_info():
     service_locations = create_service_list(service_ids, neighborhood)
     all_info = {'neighborhood': neighborhood_location, 
                 'services': service_locations}
+    
     return jsonify(all_info)
 
 

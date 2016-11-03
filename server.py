@@ -115,7 +115,9 @@ def process_sign_up():
         flash('There is already an account associated with that email')
         return redirect('/sign-up')
 
-
+@app.route('/add-to-favorites', methods=['POST'])
+def add_to_favorites():
+    
 
 if __name__ == "__main__":
     app.debug = True

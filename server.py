@@ -53,6 +53,17 @@ def get_yelp_info():
     
     return jsonify(all_info)
 
+@app.route('/set_favorite')
+def set_favorite():
+    key = request.args.get('key', 0, type=int)
+    name = request.args.get('name', 0, type=str)
+    print key
+    print name
+    # do some fancy stuff with the database
+    
+    data = jsonify('Added to favorite places')
+    # what the server returns is what the js is going to receive as "data"
+    return data
 
 @app.route('/user/<user_id>')
 def show_user_page(user_id):
@@ -115,9 +126,9 @@ def process_sign_up():
         flash('There is already an account associated with that email')
         return redirect('/sign-up')
 
-@app.route('/add-to-favorites', methods=['POST'])
-def add_to_favorites():
-    
+# @app.route('/add-to-favorites', methods=['POST'])
+# def add_to_favorites():
+
 
 if __name__ == "__main__":
     app.debug = True

@@ -9,61 +9,27 @@
     </style>
   </head>
   <body>
+    <div id='mouse'>hello</div>
     <div id="map"></div>
-    <script src="http://code.jquery.com/jquery.js"></script>
-    <script defer src="https://maps.googleapis.com/maps/api/js?key={{ api_key }}&callback=initMap">
+    <script src="http://code.jquery.com/jquery.js"></script>    
+    <script src='/static/neighborhood.js'></script>
+
+  <script src="https://maps.googleapis.com/maps/api/js?key={{ api_key }}&callback=initMap">
     </script>
-    <script type="text/javascript">
-      function initMap() {
-         var infoWindow = new google.maps.InfoWindow({width: 150});
-       
-         $.get('/info.json', function (results) {
-           var position = results.neighborhood
-           var map = new google.maps.Map(document.getElementById("map"), {
-           zoom: 15,
-           center: position
-         });
+
+<script type="text/javascript">
+  
+$(document).ready(function() {
+  console.log('ready');
+  $('.favorite').on('click', function() {
+    console.log('hi');
+  });
 
 
-           // creates markers
-           for (var key in results.services) {
-             service = results.services[key];
 
-             var marker = new google.maps.Marker({
-               position: new google.maps.LatLng(service.lat, service.lng),
-               map: map,
-           });
+})
 
-             html = (
-               '<div class="window-content">' +
-                   '<p><b>Name: </b>' + service.name + '</p>' +
-                   '<p><b>Url: </b> <a href=' + service.url + '>Website</a></p>' +
-                   '<p><b>Add to Favorites:</b></p>' +
-                   '<img src=/static/img/like-1.png id=favorite>' +
-               '</div>');
+</script>
 
-              bindInfoWindow(marker, map, infoWindow, html);
-
-         }
-       });
-
-       var marker, html;
-       function bindInfoWindow(marker, map, infoWindow, html) {
-           google.maps.event.addListener(marker, 'click', function () {
-             infoWindow.close();
-             infoWindow.setContent(html);
-             infoWindow.open(map, marker);
-          });
-       }
-      }
-
-      function favorite() {
-        $('#favorite').attr('src', '/static/img/like.png');
-      }
-
-      $('#favorite').on('click', favorite)
-
-     
-    </script>
   </body>
 </html>

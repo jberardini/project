@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<link href="/static/user_info.css" rel="stylesheet">
+<script src="/static/user_info.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key={{ api_key }}&callback=initMap">
+</script>
+{% endblock %}
+
+{% block content %}
+
+<div id='map'></div>
+{% endblock %}

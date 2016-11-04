@@ -13,10 +13,11 @@ function initMap() {
      // creates markers
      for (var key in results.services) {
        var service = results.services[key];
-
+       var image = '/static/img/bath.png'
        var marker = new google.maps.Marker({
          position: new google.maps.LatLng(service.lat, service.lng),
          map: map,
+         icon: image,
      });
 
 
@@ -25,7 +26,7 @@ function initMap() {
        html = (
          '<div class="window-content">' +
              '<p id='+key + '>' + service.name + '</p>' +
-             '<p><b>Url: </b> <a href=' + service.url + '>Website</a></p>' +
+             '<p><b>Url: </b> <a href=' + service.url + ' target=_blank>Website</a></p>' +
              '<p><b>Add to Favorites:</b></p>' +
              '<img src=/static/img/like-1.png onclick=heartClick('+key+'); class=favorite data-name="'+service.name+
              '">' +

@@ -69,7 +69,11 @@ def set_favorite():
 def show_user_page(user_id):
     """Show's the user's page, with favorite places"""
 
-    return render_template('user_info.html')
+    user = db.session.query(User).filter_by(user_id=user_id).one()
+
+    api_key=os.environ['GOOGLE_API_KEY']
+
+    return render_template('user_info.html', user=user, api_key=api_key)
 
 @app.route('/login')
 def log_in():

@@ -1,9 +1,11 @@
 {% extends 'base.html' %}
 
+{% block title %}Welcome to the Neighborhood{% endblock %}
+
 {% block head %}
 <link href="/static/user_info.css" rel="stylesheet">
 <script src="/static/user_info.js"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key={{ api_key }}&callback=initMap">
+<script src="https://maps.googleapis.com/maps/api/js?key={{ api_key }}&callback=initMap" async defer>
 </script>
 {% endblock %}
 

@@ -10,15 +10,17 @@ def format_neighborhood(neighborhood):
     return neighborhood
 
 
-def get_neighborhood(neighborhood):
+def get_neighborhood(neighborhood, api_key):
     """Gets approximate neighborhood location from Google's Geocode API"""
-    payload = {'address': neighborhood}
+    payload = {'address': neighborhood, 'key': api_key}
     r = requests.get('https://maps.googleapis.com/maps/api/geocode/json', 
                      params=payload)
 
     neighborhood_info = r.json()
 
+    print neighborhood_info
     coordinates = neighborhood_info['results'][0]['geometry']['location']
+    
     return coordinates
 
 

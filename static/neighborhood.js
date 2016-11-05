@@ -1,4 +1,4 @@
-"use strict"
+'use strict';
 function initMap() {
    var infoWindow = new google.maps.InfoWindow({width: 150});
  
@@ -28,15 +28,21 @@ function initMap() {
              '<p id='+key + '>' + service.name + '</p>' +
              '<p><b>Url: </b> <a href=' + service.url + ' target=_blank>Website</a></p>' +
              '<p><b>Add to Favorites:</b></p>' +
-             '<img src=/static/img/like-1.png onclick=heartClick('+key+'); class=favorite data-name="'+service.name+
+             '<img src=/static/img/like-1.png class=favorite data-name="'+service.name+
              '">' +
          '</div>');
 
         bindInfoWindow(marker, map, infoWindow, html);
    }
 
+   $(window).load(function(){
+
+    $('.favorite').on('click', heartClick);
+  });
+
 
  });
+
 
  function bindInfoWindow(marker, map, infoWindow, html) {
      google.maps.event.addListener(marker, 'click', function () {
@@ -50,17 +56,12 @@ function initMap() {
 }
 
 
-function heartClick (key){ 
-  // console.log($(this))
-  // console.log(key)
-  // // var name = $(this).attr('data-name');
-  // console.log(name)
-  name = $('#'+key).html()
-  $.get('/set_favorite', {'key': key, 'name':name}, function(){
-  });
+
+function heartClick(){ 
+  alert('hello');
  }
 
- 
+
 
 
 // function heartClick() {

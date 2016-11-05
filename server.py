@@ -37,6 +37,7 @@ def show_map():
     session['neighborhood'] = neighborhood
     session['service_ids'] = service_ids
     api_key=os.environ['GOOGLE_API_KEY']
+    print api_key
 
     return render_template('neighborhood.html', api_key=api_key)
 
@@ -45,8 +46,9 @@ def get_yelp_info():
     "Gets info from yelp and geocode info from Google"
     neighborhood = session['neighborhood']
     service_ids = session['service_ids']
+    api_key=os.environ['GOOGLE_API_KEY']
 
-    neighborhood_location = get_neighborhood(neighborhood)
+    neighborhood_location = get_neighborhood(neighborhood, api_key)
     service_locations = create_service_list(service_ids, neighborhood)
     all_info = {'neighborhood': neighborhood_location, 
                 'services': service_locations}

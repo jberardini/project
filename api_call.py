@@ -27,9 +27,11 @@ def get_neighborhood(neighborhood, api_key):
 def get_service(service_id, neighborhood):
     """Gets services from Yelp's API"""
     service = db.session.query(Service).filter_by(service_id=service_id).one()
+    print service.yelp_code
 
     payload = {'limit': 1, 'sort': 0, 'category_filter': service.yelp_code,
               'location': neighborhood}
+    print payload
 
     consumer_key=os.environ['YELP_CONSUMER_KEY']
     consumer_secret=os.environ['YELP_CONSUMER_SECRET']
@@ -53,7 +55,7 @@ def get_service(service_id, neighborhood):
     url = service_info['businesses'][0]['url']
 
     display_info = {'name': name, 'url': url, 'lat': lat_long['latitude'], 
-                   'lng': lat_long['longitude']}
+                   'lng': lat_long['longitude'], 'picture': service.picture}
 
     return display_info
 

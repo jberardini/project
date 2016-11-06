@@ -57,11 +57,22 @@ def get_yelp_info():
 
 @app.route('/set_favorite')
 def set_favorite():
-    key = request.args.get('key', 0, type=int)
+    service_id = request.args.get('service_id', 0, type=int)
     name = request.args.get('name', 0, type=str)
-    print key
-    print name
-    # do some fancy stuff with the database
+    full_neighborhood = session['neighborhood'].split(',')
+    neighborhood_name = full_neighborhood[0]
+    neighborhood=db.session.query(Neighborhood).filter_by(name=neighborhood_name).one()
+    user_id = session['user_id']
+
+    place_search = db.session.query(FavPlace).filter_by(name=name).all()
+    if not place_search:
+        new_fav_place = FavPlace(name=name, user_id=user_id, service_id=service_id, 
+                             neighborhood_id=neighborhood.neighborhood_id)
+        db.session.add(new_fav_place)
+    else:
+        place = place_search[0]
+        db.session.delete(place)
+    db.session.commit() 
     
     data = jsonify('Added to favorite places')
     # what the server returns is what the js is going to receive as "data"
@@ -72,10 +83,13 @@ def show_user_page(user_id):
     """Show's the user's page, with favorite places"""
 
     user = db.session.query(User).filter_by(user_id=user_id).one()
+    fav_places = user.fav_places
+    print user.fav_places
 
     api_key=os.environ['GOOGLE_API_KEY']
 
-    return render_template('user_info.html', user=user, api_key=api_key)
+    return render_template('user_info.html', user=user, api_key=api_key,
+                            fav_places=fav_places)
 
 @app.route('/login')
 def log_in():
@@ -93,6 +107,7 @@ def process_login():
 
     if user:
         if user[0].password == password:
+            session['user_id'] = user[0].user_id
             flash('You are now logged in.')
             return redirect('/user/'+ str(user[0].user_id))
         else:
@@ -105,7 +120,7 @@ def process_login():
 @app.route('/logged-out')
 def process_logout():
     """Logs user out"""
-
+    del session['user_id']
     return redirect('/')
 
 @app.route('/sign-up')

@@ -1,18 +1,18 @@
-dry-cleaning and laundry | drycleaninglaundry
-shipping | shipping_centers
-grocery store | grocery
-gym | gyms
-restaurant | restaurants
-coffee | coffee
-hair salon | hair
-nail salon | othersalons
-doctor | physicians
-drugstore | drugstores
-park | parks
-bank | banks
-liquor store | beer_and_wine
-convenience store | convenience
-bar | bars
-library | libraries
-DMV | departmentsofmotorvehicles
-hardware store | hardware
+dry-cleaning and laundry|drycleaninglaundry|static/img/drycleaning.png
+shipping|shipping_centers|static/img/shipping.png
+grocery store|grocery|static/img/grocery-store.png
+gym|gyms|static/img/gym.png
+restaurant|restaurants|static/img/restaurant.png
+coffee|coffee|static/img/coffee.png
+hair salon|hair|static/img/hair-salon.png
+nail salon|othersalons|static/img/nail-salon.png
+doctor|physicians|static/img/doctor.png
+drugstore|drugstores|static/img/drugstore.png
+park|parks|static/img/park.png
+bank|banks|static/img/bank.png
+liquor store|beer_and_wine|static/img/liquor-store.png
+convenience store|convenience|static/img/convenience-store.png
+bar|bars|static/img/bar.png
+library|libraries|static/img/library.png
+DMV|departmentsofmotorvehicles|static/img/dmv.png
+hardware store|hardware|static/img/hardware-store.png

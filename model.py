@@ -16,12 +16,14 @@ class User(db.Model):
     password = db.Column(db.String(64), nullable=False)
     first_name = db.Column(db.String(64))
     address = db.Column(db.String(100))
+    neighborhood = db.Column(db.String(100))
 
     def __repr__(self):
         """Provides a representation of users"""
 
-        return '<User user_id = {} email = {}>'.format(self.user_id,
-                                                       self.email)
+        return '<User user_id = {} email = {} neighborhood = {}>'.format(self.user_id,
+                                                                         self.email,
+                                                                         self.neighborhood)
 
 class Neighborhood(db.Model):
     """Neighborhoods in the Bay Area"""
@@ -47,6 +49,7 @@ class Service(db.Model):
     service_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     yelp_code = db.Column(db.String(40), nullable=False)
     name = db.Column(db.String(50), nullable=False)
+    picture = db.Column(db.String(150), nullable=False)
 
     def __repr__(self):
         """Provides a representation of services"""
@@ -60,7 +63,7 @@ class FavPlace(db.Model):
     __tablename__='fav_places'
 
     place_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    name = db.Column(db.String(100), nullable=False)
+    name = db.Column(db.String(100), nullable=False, unique=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
     neighborhood_id = db.Column(db.Integer, db.ForeignKey('neighborhoods.neighborhood_id'))
     service_id = db.Column(db.Integer, db.ForeignKey('services.service_id'))

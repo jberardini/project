@@ -3,13 +3,20 @@
 {% block title %}Welcome to the Neighborhood{% endblock %}
 
 {% block head %}
-<link href="/static/user_info.css" rel="stylesheet">
-<script src="https://maps.googleapis.com/maps/api/js?v=3&key={{ api_key }}">
-</script>
-<script src="/static/user_info.js"></script>
+  <link href="/static/user_info.css" rel="stylesheet">
+  <script src="https://maps.googleapis.com/maps/api/js?v=3&key={{ api_key }}">
+  </script>
+  <script src="/static/user_info.js"></script>
 {% endblock %}
 
 {% block content %}
-
-<div id='map'></div>
+  <div id='map'></div>
+  <div id='fav_places'>
+    <h3>Your favorite places</h3>
+    <ul>
+      {% for fav_place in fav_places %}
+      <li>{{ fav_place.name }}</li>
+      {% endfor %}
+    </ul>
+  </div>
 {% endblock %}

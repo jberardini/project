@@ -1,33 +1,35 @@
 <!doctype html>
 
 <html>
-<head>
-  <title>{% block title %} {% endblock %}</title>
+  <head>
+    <title>{% block title %} {% endblock %}</title>
 
-  {% block head %}
+    {% block head %}
+    {% endblock %}
+  </head>
 
-  {% endblock %}
-</head>
+  <body>
+    <header>
+     <a href="/">Home</a>
+      {% if 'user_id' in session %}
+        <a href='/logged-out'>Log out</a>
+        <a href="/user/{{ session['user_id'] }}">See your places</a>
+      {% else %}
+        <a href="/sign-up">Create an account</a>
+        <a href="/login" id='logged-out'>Log in</a>
+      {% endif %}
+    </header>
 
-<body>
-  <header>
-    {% if 'user_id' in session %}
-      <a href='/logged-out'>Log out</a>
-    {% else %}
-      <a href="/login">Log in</a>
-    {% endif %}
-  </header>
+    <!-- Show flashed messges -->
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for message in messages %}
+          <div class='alert alert-warning'>{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
 
-  <!-- Show flashed messges -->
-  {% with messages = get_flashed_messages() %}
-    {% if messages %}
-      {% for message in messages %}
-        <div class='alert alert-warning'>{{ message }}</div>
-      {% endfor %}
-    {% endif %}
-  {% endwith %}
-
-  {% block content %}
-  {% endblock %}
-</body>
+    {% block content %}
+    {% endblock %}
+  </body>
 </html>

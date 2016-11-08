@@ -4,6 +4,8 @@
 
 {% block head %}
   <link href="/static/user_info.css" rel="stylesheet">
+  <script src="http://code.jquery.com/jquery.js">
+  </script>
   <script src="https://maps.googleapis.com/maps/api/js?v=3&key={{ api_key }}">
   </script>
   <script src="/static/user_info.js"></script>
@@ -13,10 +15,14 @@
   <div id='map'></div>
   <div id='fav_places'>
     <h3>Your favorite places</h3>
+    {% if fav_places %}
     <ul>
       {% for fav_place in fav_places %}
-      <li>{{ fav_place.name }}</li>
+        <li>{{ fav_place.name }}</li>
       {% endfor %}
     </ul>
+    {% else %}
+    <p> You don't have any favorite places yet! Click <a href="/">here</a> to find some.</p>
+    {% endif %}
   </div>
 {% endblock %}

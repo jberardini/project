@@ -37,7 +37,7 @@ class Neighborhood(db.Model):
     def __repr__(self):
         """Provides a representation of neighborhoods"""
 
-        return '<Neighborhood neighborhood_id = {} name = {}'.format(self.neighborhood_id,
+        return '<Neighborhood neighborhood_id = {} name = {}>'.format(self.neighborhood_id,
                                                                      self.name)
 
 
@@ -54,7 +54,7 @@ class Service(db.Model):
     def __repr__(self):
         """Provides a representation of services"""
 
-        return '<Service service_id = {} name = {}'.format(self.service_id,
+        return '<Service service_id = {} name = {}>'.format(self.service_id,
                                                            self.name)
 
 class FavPlace(db.Model):
@@ -77,7 +77,7 @@ class FavPlace(db.Model):
     def __repr__(self):
         """Provides a representation of favorite places"""
 
-        return '<FavPlace place_id = {} name = {}'.format(self.place_id,
+        return '<FavPlace place_id = {} name = {}>'.format(self.place_id,
                                                           self.name)
 
 ######################################################################

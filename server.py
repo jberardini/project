@@ -4,16 +4,18 @@
 
 from jinja2 import StrictUndefined
 from flask import Flask, jsonify, render_template, redirect, request, flash, session
-
 from model import connect_to_db, db, User, Neighborhood, Service, FavPlace
 from flask_debugtoolbar import DebugToolbarExtension
-import os
-from api_call import format_neighborhood, create_service_list, get_neighborhood
+from os import environ
+from api_call import format_neighborhood, create_service_list, get_neighborhood, get_fav_places
+#don't currently need this
 import json
 
 app = Flask(__name__)
 
 app.secret_key = 'secret'
+
+app.jinja_env.undefined = StrictUndefined
 
 @app.route('/')
 def index():
@@ -36,17 +38,17 @@ def show_map():
 
     session['neighborhood'] = neighborhood
     session['service_ids'] = service_ids
-    api_key=os.environ['GOOGLE_API_KEY']
-    print api_key
+    api_key=environ['GOOGLE_API_KEY']
 
     return render_template('neighborhood.html', api_key=api_key)
+
 
 @app.route('/info.json')
 def get_yelp_info():
     "Gets info from yelp and geocode info from Google"
     neighborhood = session['neighborhood']
     service_ids = session['service_ids']
-    api_key=os.environ['GOOGLE_API_KEY']
+    api_key=environ['GOOGLE_API_KEY']
 
     neighborhood_location = get_neighborhood(neighborhood, api_key)
     service_locations = create_service_list(service_ids, neighborhood)
@@ -54,6 +56,7 @@ def get_yelp_info():
                 'services': service_locations}
     
     return jsonify(all_info)
+
 
 @app.route('/set_favorite')
 def set_favorite():
@@ -78,18 +81,33 @@ def set_favorite():
     # what the server returns is what the js is going to receive as "data"
     return data
 
+
 @app.route('/user/<user_id>')
 def show_user_page(user_id):
     """Show's the user's page, with favorite places"""
 
     user = db.session.query(User).filter_by(user_id=user_id).one()
     fav_places = user.fav_places
-    print user.fav_places
 
-    api_key=os.environ['GOOGLE_API_KEY']
+    api_key=environ['GOOGLE_API_KEY']
 
     return render_template('user_info.html', user=user, api_key=api_key,
                             fav_places=fav_places)
+
+
+@app.route('/fav.json')
+def get_fav_place_info():
+    """Gets info about fav places from Yelp's API"""
+    user_id=session['user_id']
+    neighborhood=session['neighborhood']
+    api_key=environ['GOOGLE_API_KEY']
+    neighborhood_location = get_neighborhood(neighborhood, api_key)
+    fav_place_info = get_fav_places(user_id, neighborhood)
+    important_info = {}
+    important_info['neighborhood'] = neighborhood_location
+    important_info['fav_places'] = fav_place_info
+    return jsonify(important_info)
+
 
 @app.route('/login')
 def log_in():
@@ -103,31 +121,36 @@ def process_login():
 
     email = request.form.get('email')
     password = request.form.get('password')
-    user = db.session.query(User).filter_by(email=email).all()
+    user = db.session.query(User).filter_by(email=email).one()
 
     if user:
-        if user[0].password == password:
-            session['user_id'] = user[0].user_id
+        if user.password == password:
+            session['user_id'] = user.user_id
             flash('You are now logged in.')
-            return redirect('/user/'+ str(user[0].user_id))
+            return redirect('/user/'+ str(user.user_id))
         else:
-            flash('Invalid credentials.')
+            flash('Your password is incorrect.')
             return redirect('/login')
     else:
         flash('We didn\'t find an account that matches that email. Sign up below')
         return redirect('/sign-up')
 
+
 @app.route('/logged-out')
 def process_logout():
     """Logs user out"""
+
     del session['user_id']
+    flash('You have been logged out.')
     return redirect('/')
+
 
 @app.route('/sign-up')
 def sign_up():
     """Allows user to register for an account"""
 
     return render_template('sign-up.html')
+
 
 @app.route('/process-signup', methods=['POST'])
 def process_sign_up():
@@ -146,9 +169,6 @@ def process_sign_up():
     else:
         flash('There is already an account associated with that email')
         return redirect('/sign-up')
-
-# @app.route('/add-to-favorites', methods=['POST'])
-# def add_to_favorites():
 
 
 if __name__ == "__main__":

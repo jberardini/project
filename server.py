@@ -7,7 +7,7 @@ from flask import Flask, jsonify, render_template, redirect, request, flash, ses
 from model import connect_to_db, db, User, Neighborhood, Service, FavPlace
 from flask_debugtoolbar import DebugToolbarExtension
 from os import environ
-from api_call import format_neighborhood, create_service_list, get_neighborhood, get_fav_places
+from api_call import get_neighborhood, create_service_list, get_fav_places
 #don't currently need this
 import json
 
@@ -34,20 +34,24 @@ def show_map():
 
     neighborhood = request.args.get('neighborhood')
     service_ids = request.args.getlist('service')
-    neighborhood = format_neighborhood(neighborhood)
+    # neighborhood = format_neighborhood(neighborhood)
 
-    session['neighborhood'] = neighborhood
-    session['service_ids'] = service_ids
     api_key=environ['GOOGLE_API_KEY']
 
-    return render_template('neighborhood.html', api_key=api_key)
+    return render_template('neighborhood.html', api_key=api_key, 
+                           neighborhood=neighborhood, 
+                           service_ids=service_ids)
 
 
 @app.route('/info.json')
 def get_yelp_info():
     "Gets info from yelp and geocode info from Google"
-    neighborhood = session['neighborhood']
-    service_ids = session['service_ids']
+    
+    service_ids = request.args.getlist('service_ids', 0)
+    print service_ids
+    neighborhood = request.args.get('neighborhood', 0, type=str)
+    print neighborhood
+
     api_key=environ['GOOGLE_API_KEY']
 
     neighborhood_location = get_neighborhood(neighborhood, api_key)
@@ -82,7 +86,7 @@ def set_favorite():
     return data
 
 
-@app.route('/user/<user_id>')
+@app.route('/<user_id>')
 def show_user_page(user_id):
     """Show's the user's page, with favorite places"""
 
@@ -98,14 +102,18 @@ def show_user_page(user_id):
 @app.route('/fav.json')
 def get_fav_place_info():
     """Gets info about fav places from Yelp's API"""
+
     user_id=session['user_id']
     neighborhood=session['neighborhood']
     api_key=environ['GOOGLE_API_KEY']
+
     neighborhood_location = get_neighborhood(neighborhood, api_key)
     fav_place_info = get_fav_places(user_id, neighborhood)
+
     important_info = {}
     important_info['neighborhood'] = neighborhood_location
     important_info['fav_places'] = fav_place_info
+
     return jsonify(important_info)
 
 
@@ -127,7 +135,7 @@ def process_login():
         if user.password == password:
             session['user_id'] = user.user_id
             flash('You are now logged in.')
-            return redirect('/user/'+ str(user.user_id))
+            return redirect('/' + str(user.user_id))
         else:
             flash('Your password is incorrect.')
             return redirect('/login')

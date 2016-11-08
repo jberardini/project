@@ -4,6 +4,10 @@
 {% endblock %}
 
 {% block head %}
+  <div hidden id='info' 
+  data-neighborhood="{{ neighborhood }}"
+  data-services="{{ service_ids }}" ></div>
+  
   <link href="/static/user_info.css" rel="stylesheet">
   <script src="http://code.jquery.com/jquery.js">
   </script>
@@ -13,5 +17,7 @@
 {% endblock %}
 
 {% block content %}
-  <div id="map"></div>
+<h1>{{ neighborhood }} </h1>
+<div id="map"></div>
+
 {% endblock %}

@@ -1,13 +1,8 @@
 'use strict';
 
-var neighborhood = $('#info').attr('data-neighborhood')
-console.log(neighborhood)
-var service_ids = $('#info').attr('data-services')
-console.log(service_ids)
-
 function initMap() {
 
-  $.get('/fav.json', {neighborhood: neighborhood, service_ids: service_ids}, function (results) {
+  $.get('/fav.json',  function (results) {
     var center = results.neighborhood;
     console.log(results.neighborhood);
     var map = new google.maps.Map(document.getElementById('map'), {

@@ -1,5 +1,30 @@
 'use strict';
+
+
+// var neighborhood = $('#neighborhood').val()
+// var services = $('input:checkbox:checked').map(function() {
+//     return parseInt($(this).val());
+// }).get();
+// console.log(services);
+
+$('#search').click(function(evt) {
+    evt.preventDefault();
+    var neighborhood = $('#neighborhood').val();
+    var services = $('input:checkbox:checked').map(function() {
+        return parseInt($(this).val());
+    }).get();
+    $.get('/info.json', {neighborhood: neighborhood, services: services}, function() {
+      console.log('hello'); 
+   });       
+});
+
+// services = JSON.stringify(services);
 function initMap() {
+  // var neighborhood = $('#info').attr('data-neighborhood')
+  // console.log(neighborhood)
+  // var service_ids = $('#info').attr('data-services')
+  // console.log(service_ids)
+
   $.get('/info.json', function (results) {
     var position = results.neighborhood
     var map = new google.maps.Map(document.getElementById("map"), {

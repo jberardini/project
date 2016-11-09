@@ -6,14 +6,13 @@
 {% block head %}
   <div hidden id='info' 
   data-neighborhood="{{ neighborhood }}"
-  data-services="{{ service_ids }}" ></div>
-  
-  <link href="/static/user_info.css" rel="stylesheet">
+  data-services="{{ service_ids_dict }}" ></div>
   <script src="http://code.jquery.com/jquery.js">
   </script>
   <script src='/static/neighborhood.js'></script>
-  <script src="https://maps.googleapis.com/maps/api/js?key={{ api_key }}&callback=initMap">
-  </script>
+  <script src="https://maps.googleapis.com/maps/api/js?key={{ api_key }}&callback=initMap"></script>
+  <link href="/static/user_info.css" rel="stylesheet">
+  
 {% endblock %}
 
 {% block content %}

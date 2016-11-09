@@ -3,6 +3,8 @@ from os import environ
 from rauth import OAuth1Session
 from model import connect_to_db, db, User, Neighborhood, Service, FavPlace
 
+# -*- coding: utf-8 -*-
+
 # def format_neighborhood(neighborhood):
 #     """Formats neighborhood name for API call"""
 

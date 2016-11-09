@@ -34,28 +34,36 @@ def show_map():
 
     neighborhood = request.args.get('neighborhood')
     service_ids = request.args.getlist('service')
+    service_ids_dict = {}
+    for service_id in service_ids:
+        service_ids_dict[service_id] = service_id
     # neighborhood = format_neighborhood(neighborhood)
 
     api_key=environ['GOOGLE_API_KEY']
 
     return render_template('neighborhood.html', api_key=api_key, 
                            neighborhood=neighborhood, 
-                           service_ids=service_ids)
+                           service_ids_dict=service_ids_dict)
 
 
 @app.route('/info.json')
 def get_yelp_info():
     "Gets info from yelp and geocode info from Google"
     
-    service_ids = request.args.getlist('service_ids', 0)
-    print service_ids
-    neighborhood = request.args.get('neighborhood', 0, type=str)
+    print request.args
+
+    neighborhood = request.args.get('neighborhood')
+    services = request.args.getlist('services[]')
+    for service in services:
+        print service
     print neighborhood
+    print services
+
 
     api_key=environ['GOOGLE_API_KEY']
 
     neighborhood_location = get_neighborhood(neighborhood, api_key)
-    service_locations = create_service_list(service_ids, neighborhood)
+    service_locations = create_service_list(services, neighborhood)
     all_info = {'neighborhood': neighborhood_location, 
                 'services': service_locations}
     

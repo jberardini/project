@@ -2,14 +2,19 @@
 
 {% block title %}Welcome to the Neighborhood{% endblock %}
 
+{% block header %}
+  <script src="http://code.jquery.com/jquery.js">
+  </script>
+{% endblock %}
+
 {% block content %}
 <h1>Welcome to the Neighborhood</h1>
 
-<form action='/neighborhood-map'>
+<form action='/neighborhood-map' id='services'>
   My neighborhood is:
   <select name='neighborhood'>
     {% for neighborhood in neighborhoods %}
-      <option value="{{ neighborhood.name }}, San Francisco, CA"> 
+      <option id='neighborhood' value="{{ neighborhood.name }}, San Francisco, CA"> 
         {{ neighborhood.name }}
       </option>
     {% endfor %} 
@@ -23,6 +28,6 @@
     <br>
   {% endfor %}
   <br>
-  <input type='submit' value='Go'>
+  <input id='search' type='submit' value='Go'>
 </form>
 {% endblock %}

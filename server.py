@@ -14,7 +14,7 @@ import json
 app = Flask(__name__)
 
 app.secret_key = 'secret'
-api_key=environ['GOOGLE_API_KEY']
+api_key = environ['GOOGLE_API_KEY']
 
 app.jinja_env.undefined = StrictUndefined
 
@@ -26,44 +26,22 @@ def index():
     services = db.session.query(Service).all()
 
     return render_template('homepage.html', neighborhoods=neighborhoods,
-                           services=services)
-
-
-@app.route('/neighborhood-map')
-def show_map():
-    """Shows a map of the user's neighborhood with highlighted services"""
-
-    # neighborhood = request.args.get('neighborhood')
-    # service_ids = request.args.getlist('service')
-    # service_ids_dict = {}
-    # for service_id in service_ids:
-    #     service_ids_dict[service_id] = service_id
-    # # neighborhood = format_neighborhood(neighborhood)
-
-    # api_key=environ['GOOGLE_API_KEY']
-
-    return render_template('neighborhood.html', api_key=api_key)
+                           services=services, api_key=api_key)
 
 
 @app.route('/info.json')
 def get_yelp_info():
     "Gets info from yelp and geocode info from Google"
     
-    print request.args
-
     neighborhood = request.args.get('neighborhood')
     services = request.args.getlist('services[]')
-    print neighborhood
-    print services
-    print type(services)
-
 
     neighborhood_location = get_neighborhood(neighborhood, api_key)
     service_locations = create_service_list(services, neighborhood)
     all_info = {'neighborhood': neighborhood_location, 
                 'services': service_locations}
     
-    # return jsonify(all_info)
+
     return jsonify(all_info)
 
 
@@ -71,12 +49,15 @@ def get_yelp_info():
 def set_favorite():
     service_id = request.args.get('service_id', 0, type=int)
     name = request.args.get('name', 0, type=str)
-    full_neighborhood = session['neighborhood'].split(',')
+    neighborhood = request.args.get('neighborhood', 0, type=str)
+    print neighborhood
+    full_neighborhood = neighborhood.split(',')
     neighborhood_name = full_neighborhood[0]
     neighborhood=db.session.query(Neighborhood).filter_by(name=neighborhood_name).one()
     user_id = session['user_id']
 
     place_search = db.session.query(FavPlace).filter_by(name=name).all()
+
     if not place_search:
         new_fav_place = FavPlace(name=name, user_id=user_id, service_id=service_id, 
                              neighborhood_id=neighborhood.neighborhood_id)
@@ -87,21 +68,15 @@ def set_favorite():
     db.session.commit() 
     
     data = jsonify('Added to favorite places')
-    # what the server returns is what the js is going to receive as "data"
     return data
 
 
-@app.route('/<user_id>')
+@app.route('/user/<user_id>')
 def show_user_page(user_id):
     """Show's the user's page, with favorite places"""
 
-    user = db.session.query(User).filter_by(user_id=user_id).one()
-    fav_places = user.fav_places
 
-    api_key=environ['GOOGLE_API_KEY']
-
-    return render_template('user_info.html', user=user, api_key=api_key,
-                            fav_places=fav_places)
+    return render_template('user_info.html', api_key=api_key)
 
 
 @app.route('/fav.json')
@@ -109,15 +84,16 @@ def get_fav_place_info():
     """Gets info about fav places from Yelp's API"""
 
     user_id=session['user_id']
-    neighborhood=session['neighborhood']
-    api_key=environ['GOOGLE_API_KEY']
+    user = db.session.query(User).filter_by(user_id=user_id).one()
+    neighborhood = user.user_neighborhood
+    print user
+    print user.user_neighborhood
+    fav_places = user.fav_places
 
     neighborhood_location = get_neighborhood(neighborhood, api_key)
-    fav_place_info = get_fav_places(user_id, neighborhood)
+    fav_place_info = get_fav_places(fav_places, neighborhood)
 
-    important_info = {}
-    important_info['neighborhood'] = neighborhood_location
-    important_info['fav_places'] = fav_place_info
+    important_info = {'neighborhood': neighborhood_location, 'fav_places': fav_place_info}
 
     return jsonify(important_info)
 
@@ -126,7 +102,7 @@ def get_fav_place_info():
 def log_in():
     """Allows user to log in"""
 
-    return render_template('log-in.html')
+    return render_template('log-in.html', api_key=api_key)
 
 @app.route('/logged-in', methods=['POST'])
 def process_login():
@@ -140,7 +116,7 @@ def process_login():
         if user.password == password:
             session['user_id'] = user.user_id
             flash('You are now logged in.')
-            return redirect('/' + str(user.user_id))
+            return redirect('/user/' + str(user.user_id))
         else:
             flash('Your password is incorrect.')
             return redirect('/login')
@@ -162,7 +138,9 @@ def process_logout():
 def sign_up():
     """Allows user to register for an account"""
 
-    return render_template('sign-up.html')
+    neighborhoods = db.session.query(Neighborhood).all()
+
+    return render_template('sign-up.html', neighborhoods=neighborhoods, api_key=api_key)
 
 
 @app.route('/process-signup', methods=['POST'])
@@ -171,10 +149,11 @@ def process_sign_up():
 
     email = request.form.get('email')
     password = request.form.get('password')
+    user_neighborhood = request.form.get('neighborhood')
     user = db.session.query(User).filter_by(email=email).all()
 
     if not user:
-        new_user = User(email=email, password=password)
+        new_user = User(email=email, password=password, user_neighborhood=user_neighborhood)
         db.session.add(new_user)
         db.session.commit()
         flash('Your account has been created. Please log in.')

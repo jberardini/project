@@ -26,7 +26,7 @@ function createMap(results) {
          '<p id='+key + '>' + service.name + '</p>' +
          '<p><b>Url: </b> <a href=' + service.url + ' target=_blank>Website</a></p>' +
          '<p><b>Add to Favorites:</b></p>' +
-         '<img src=/static/img/like-1.png class=favorite id='+key+' data-name="'+service.name+
+         '<img src=/static/img/like-1.png class=favorite data-neighborhood="'+service.neighborhood+'" id='+key+' data-name="'+service.name+
          '">' +
       '</div>');
 
@@ -62,7 +62,8 @@ function createMap(results) {
 function heartClick(){
   var service_id = parseInt($(this).attr('id'))
   var name = $(this).attr('data-name')
-  $.get('/set_favorite', {service_id: service_id, name: name}, function() {
+  var neighborhood = $(this).attr('data-neighborhood')
+  $.get('/set_favorite', {service_id: service_id, name: name, neighborhood: neighborhood}, function() {
     if ($('.favorite').attr('src')==='/static/img/like-1.png') {
       $('.favorite').attr('src', '/static/img/like.png');
     } else {

@@ -7,7 +7,15 @@
 
   <form action ='/process-signup' method='POST'>
     Email: <input type='email' name='email'><br>
-    Password: <input type='password' name='password'><br>
+    Password: <input type='password' name='password'><br><br>
+    What neighborhood do you live in?  
+    <select name='neighborhood'>
+    {% for neighborhood in neighborhoods %}
+      <option value="{{ neighborhood.name }}, San Francisco, CA"> 
+        {{ neighborhood.name }}
+      </option>
+    {% endfor %} 
+    </select><br>
     <input type='submit' value='Submit'>
   </form>
 

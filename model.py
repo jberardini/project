@@ -16,14 +16,14 @@ class User(db.Model):
     password = db.Column(db.String(64), nullable=False)
     first_name = db.Column(db.String(64))
     address = db.Column(db.String(100))
-    neighborhood = db.Column(db.String(100))
+    user_neighborhood = db.Column(db.String(100))
 
     def __repr__(self):
         """Provides a representation of users"""
 
         return '<User user_id = {} email = {} neighborhood = {}>'.format(self.user_id,
                                                                          self.email,
-                                                                         self.neighborhood)
+                                                                         self.user_neighborhood)
 
 class Neighborhood(db.Model):
     """Neighborhoods in the Bay Area"""

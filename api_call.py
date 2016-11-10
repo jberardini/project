@@ -5,11 +5,6 @@ from model import connect_to_db, db, User, Neighborhood, Service, FavPlace
 
 # -*- coding: utf-8 -*-
 
-# def format_neighborhood(neighborhood):
-#     """Formats neighborhood name for API call"""
-
-#     neighborhood = "{}, San Francisco, CA".format(neighborhood)
-#     return neighborhood
 
 
 def get_neighborhood(neighborhood, api_key):
@@ -81,17 +76,16 @@ def create_service_list(service_ids, neighborhood):
         url = yelp_info['businesses'][0]['url']
 
         display_info = {'name': name, 'url': url, 'lat': lat, 
-                        'lng': lng, 'picture': picture}
+                        'lng': lng, 'picture': picture, 
+                        'neighborhood': neighborhood}
 
         services[service_id] = display_info
 
     return services
 
-def get_fav_places(user_id, neighborhood):
+def get_fav_places(fav_places, neighborhood):
     """Gets fav places from Yelp's API"""
     
-    user = db.session.query(User).filter_by(user_id=user_id).one()
-    fav_places = user.fav_places
     fav_place_info={}
     for fav_place in fav_places:
         yelp_info = make_yelp_call(location=neighborhood, term=fav_place.name)
@@ -103,4 +97,5 @@ def get_fav_places(user_id, neighborhood):
         fav_place_info[fav_place.name] = {'url': url, 'lat': lat, 'lng': lng, 
                                           'picture': picture}
 
+    print fav_place_info
     return fav_place_info

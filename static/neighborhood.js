@@ -1,63 +1,39 @@
 'use strict';
 
 
-// var neighborhood = $('#neighborhood').val()
-// var services = $('input:checkbox:checked').map(function() {
-//     return parseInt($(this).val());
-// }).get();
-// console.log(services);
+function createMap(results) {
+  console.log(results)
+  var position = results.neighborhood
+  var map = new google.maps.Map(document.getElementById("map"), {
+    zoom: 15,
+    center: position
+  });
 
-$('#search').click(function(evt) {
-    evt.preventDefault();
-    var neighborhood = $('#neighborhood').val();
-    var services = $('input:checkbox:checked').map(function() {
-        return parseInt($(this).val());
-    }).get();
-    $.get('/info.json', {neighborhood: neighborhood, services: services}, function() {
-      console.log('hello'); 
-   });       
-});
-
-// services = JSON.stringify(services);
-function initMap() {
-  // var neighborhood = $('#info').attr('data-neighborhood')
-  // console.log(neighborhood)
-  // var service_ids = $('#info').attr('data-services')
-  // console.log(service_ids)
-
-  $.get('/info.json', function (results) {
-    var position = results.neighborhood
-    var map = new google.maps.Map(document.getElementById("map"), {
-      zoom: 15,
-      center: position
+   // creates markers
+  for (var key in results.services) {
+    var service = results.services[key];
+    var image = service.picture
+    var marker = new google.maps.Marker({
+      position: new google.maps.LatLng(service.lat, service.lng),
+      map: map,
+      icon: image,
     });
 
-     // creates markers
-    for (var key in results.services) {
-      var service = results.services[key];
-      var image = service.picture
-      var marker = new google.maps.Marker({
-        position: new google.maps.LatLng(service.lat, service.lng),
-        map: map,
-        icon: image,
-      });
+    var infoWindow = new google.maps.InfoWindow({width: 150});
 
-      var infoWindow = new google.maps.InfoWindow({width: 150});
+    var html = (
+      '<div class="window-content">' +
+         '<p id='+key + '>' + service.name + '</p>' +
+         '<p><b>Url: </b> <a href=' + service.url + ' target=_blank>Website</a></p>' +
+         '<p><b>Add to Favorites:</b></p>' +
+         '<img src=/static/img/like-1.png class=favorite id='+key+' data-name="'+service.name+
+         '">' +
+      '</div>');
 
-      var html = (
-        '<div class="window-content">' +
-           '<p id='+key + '>' + service.name + '</p>' +
-           '<p><b>Url: </b> <a href=' + service.url + ' target=_blank>Website</a></p>' +
-           '<p><b>Add to Favorites:</b></p>' +
-           '<img src=/static/img/like-1.png class=favorite id='+key+' data-name="'+service.name+
-           '">' +
-        '</div>');
+    infoWindow.setContent(html);
 
-      infoWindow.setContent(html);
-
-      bindInfoWindow(marker, map, infoWindow);
-    }
- });
+    bindInfoWindow(marker, map, infoWindow);
+  }
 
   var prevInfoWindow=false;
   function bindInfoWindow(marker, map, infoWindow) {

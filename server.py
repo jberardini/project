@@ -14,6 +14,7 @@ import json
 app = Flask(__name__)
 
 app.secret_key = 'secret'
+api_key=environ['GOOGLE_API_KEY']
 
 app.jinja_env.undefined = StrictUndefined
 
@@ -32,18 +33,16 @@ def index():
 def show_map():
     """Shows a map of the user's neighborhood with highlighted services"""
 
-    neighborhood = request.args.get('neighborhood')
-    service_ids = request.args.getlist('service')
-    service_ids_dict = {}
-    for service_id in service_ids:
-        service_ids_dict[service_id] = service_id
-    # neighborhood = format_neighborhood(neighborhood)
+    # neighborhood = request.args.get('neighborhood')
+    # service_ids = request.args.getlist('service')
+    # service_ids_dict = {}
+    # for service_id in service_ids:
+    #     service_ids_dict[service_id] = service_id
+    # # neighborhood = format_neighborhood(neighborhood)
 
-    api_key=environ['GOOGLE_API_KEY']
+    # api_key=environ['GOOGLE_API_KEY']
 
-    return render_template('neighborhood.html', api_key=api_key, 
-                           neighborhood=neighborhood, 
-                           service_ids_dict=service_ids_dict)
+    return render_template('neighborhood.html', api_key=api_key)
 
 
 @app.route('/info.json')
@@ -54,19 +53,17 @@ def get_yelp_info():
 
     neighborhood = request.args.get('neighborhood')
     services = request.args.getlist('services[]')
-    for service in services:
-        print service
     print neighborhood
     print services
+    print type(services)
 
-
-    api_key=environ['GOOGLE_API_KEY']
 
     neighborhood_location = get_neighborhood(neighborhood, api_key)
     service_locations = create_service_list(services, neighborhood)
     all_info = {'neighborhood': neighborhood_location, 
                 'services': service_locations}
     
+    # return jsonify(all_info)
     return jsonify(all_info)
 
 
@@ -189,6 +186,7 @@ def process_sign_up():
 
 if __name__ == "__main__":
     app.debug = True
+    app.jinja_env.auto_reload = app.debug
     connect_to_db(app) 
     # Use the DebugToolbar
     DebugToolbarExtension(app)

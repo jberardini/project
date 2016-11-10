@@ -1,13 +1,11 @@
 {% extends 'base.html' %}
 
 {% block title %}Welcome to the Neighborhood{% endblock %}
-
-{% block head %}
-  <link href="/static/user_info.css" rel="stylesheet">
-  <script src="http://code.jquery.com/jquery.js">
-  </script>
   <script src="https://maps.googleapis.com/maps/api/js?v=3&key={{ api_key }}">
   </script>
+{% block head %}
+  <link href="/static/user_info.css" rel="stylesheet">
+
   <script src="/static/user_info.js"></script>
 {% endblock %}
 

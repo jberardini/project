@@ -2,19 +2,17 @@
 
 {% block title %}Welcome to the Neighborhood{% endblock %}
 
-{% block header %}
-  <script src="http://code.jquery.com/jquery.js">
-  </script>
+{% block head %}
 {% endblock %}
 
 {% block content %}
 <h1>Welcome to the Neighborhood</h1>
 
-<form action='/neighborhood-map' id='services'>
+<form>
   My neighborhood is:
-  <select name='neighborhood'>
+  <select name='neighborhood' id='neighborhood'>
     {% for neighborhood in neighborhoods %}
-      <option id='neighborhood' value="{{ neighborhood.name }}, San Francisco, CA"> 
+      <option value="{{ neighborhood.name }}, San Francisco, CA"> 
         {{ neighborhood.name }}
       </option>
     {% endfor %} 
@@ -23,11 +21,12 @@
   <br>
   I'm looking for: <br>
   {% for service in services %}
-    <input type='checkbox' name='service' value={{ service.service_id }}>
+    <input type='checkbox' name='service' value='{{ service.service_id }}'>
     {{ service.name }}
     <br>
   {% endfor %}
   <br>
-  <input id='search' type='submit' value='Go'>
 </form>
+<button id='search'>Go</button>
+<div id='map'></div>
 {% endblock %}

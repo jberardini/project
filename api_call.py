@@ -97,5 +97,4 @@ def get_fav_places(fav_places, neighborhood):
         fav_place_info[fav_place.name] = {'url': url, 'lat': lat, 'lng': lng, 
                                           'picture': picture}
 
-    print fav_place_info
     return fav_place_info

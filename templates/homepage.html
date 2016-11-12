@@ -12,16 +12,20 @@
 <h1>Welcome to the Neighborhood</h1>
 
 <form>
-  My neighborhood is:
-  <select name='neighborhood' id='neighborhood'>
+  <p>I'd like to search by:</p>
+  <input type='radio' name='search-type' id='neighborhood-search'>Neighborhood <br>
+  <input type='radio' name='search-type' id='address-search'>Address<br>
+  <p hidden class='neighborhood-search'>What neighborhood do you live in?</p><br>
+  <select name='neighborhood' id='neighborhood' class='neighborhood-search' hidden>
+    <option value='blank' selected='selected'></option>
     {% for neighborhood in neighborhoods %}
       <option value="{{ neighborhood.name }}, San Francisco, CA"> 
         {{ neighborhood.name }}
       </option>
     {% endfor %} 
-  </select>
-  <br>
-  <br>
+  </select><br>
+  <p hidden class='address-search'> What is your address? </p><br>
+  <input type='text' name='address' id='address' class='address-search' hidden><br><br>
   I'm looking for: <br>
   {% for service in services %}
     <input type='checkbox' name='service' value='{{ service.service_id }}'>

@@ -7,7 +7,7 @@ from flask import Flask, jsonify, render_template, redirect, request, flash, ses
 from model import connect_to_db, db, User, Neighborhood, Service, FavPlace
 from flask_debugtoolbar import DebugToolbarExtension
 from os import environ
-from api_call import get_neighborhood, create_service_list, get_fav_places
+from api_call import get_geocode, create_service_list, get_fav_places
 #don't currently need this
 import json
 
@@ -35,8 +35,15 @@ def get_yelp_info():
     
     neighborhood = request.args.get('neighborhood')
     services = request.args.getlist('services[]')
+    address = request.args.get('address')
 
-    neighborhood_location = get_neighborhood(neighborhood, api_key)
+    if address:
+        address_location = get_geocode(address, api_key)
+        neighborhood = db.query('SELECT name FROM neighborhoods WHERE ST_Contains(geom, ST_Transform(ST_GeomFromText(POINT('+ coordinates + '), 4326), 4269));')
+        print neighborhood
+
+
+    neighborhood_location = get_geocode(neighborhood, api_key)
     service_locations = create_service_list(services, neighborhood)
     all_info = {'neighborhood': neighborhood_location, 
                 'services': service_locations}
@@ -90,7 +97,7 @@ def get_fav_place_info():
     print user.user_neighborhood
     fav_places = user.fav_places
 
-    neighborhood_location = get_neighborhood(neighborhood, api_key)
+    neighborhood_location = get_geocode(neighborhood, api_key)
     fav_place_info = get_fav_places(fav_places, neighborhood)
 
     important_info = {'neighborhood': neighborhood_location, 'fav_places': fav_place_info}

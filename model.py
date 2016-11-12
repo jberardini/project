@@ -65,12 +65,12 @@ class FavPlace(db.Model):
     place_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     name = db.Column(db.String(100), nullable=False, unique=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
-    neighborhood_id = db.Column(db.Integer, db.ForeignKey('neighborhoods.neighborhood_id'))
+    # neighborhood_id = db.Column(db.Integer, db.ForeignKey('neighborhoods.neighborhood_id'))
     service_id = db.Column(db.Integer, db.ForeignKey('services.service_id'))
 
     user = db.relationship('User', backref=db.backref('fav_places', order_by=place_id))
-    neighborhood = db.relationship('Neighborhood', backref=db.backref('fav_places', 
-                                                                      order_by=place_id))
+    # neighborhood = db.relationship('Neighborhood', backref=db.backref('fav_places', 
+    #                                                                   order_by=place_id))
     service = db.relationship('Service', backref=db.backref('fav_places', 
                                                          order_by=place_id))
 

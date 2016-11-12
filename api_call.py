@@ -7,16 +7,16 @@ from model import connect_to_db, db, User, Neighborhood, Service, FavPlace
 
 
 
-def get_neighborhood(neighborhood, api_key):
-    """Gets approximate neighborhood location from Google's Geocode API"""
+def get_geocode(location, api_key):
+    """Gets approximate location from Google's Geocode API"""
 
-    payload = {'address': neighborhood, 'key': api_key}
+    payload = {'address': location, 'key': api_key}
     r = requests.get('https://maps.googleapis.com/maps/api/geocode/json', 
                      params=payload)
 
-    neighborhood_info = r.json()
+    location_info = r.json()
 
-    coordinates = neighborhood_info['results'][0]['geometry']['location']
+    coordinates = location_info['results'][0]['geometry']['location']
     
     return coordinates
 

@@ -3,12 +3,14 @@
 
 function createMap(results) {
   console.log(results)
+  $('#neighborhood-welcome').html('Welcome to'+ ' ' +String(results.name))
+  // var position = results.neighborhood
   var position = results.neighborhood
   var map = new google.maps.Map(document.getElementById("map"), {
     zoom: 15,
     center: position
   });
-
+  console.log("Map created")
    // creates markers
   for (var key in results.services) {
     var service = results.services[key];
@@ -34,6 +36,9 @@ function createMap(results) {
 
     bindInfoWindow(marker, map, infoWindow);
   }
+
+  console.log(results.coordinates);
+  map.data.addGeoJson(results.coordinates);
 
   var prevInfoWindow=false;
   function bindInfoWindow(marker, map, infoWindow) {

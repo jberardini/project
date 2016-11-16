@@ -19,9 +19,11 @@
   <select name='neighborhood' id='neighborhood' class='neighborhood-search' hidden>
     <option value='blank' selected='selected'></option>
     {% for neighborhood in neighborhoods %}
-      <option value="{{ neighborhood.name }}, San Francisco, CA"> 
+      {% if neighborhood.county == 'San Francisco' %}
+        <option value="{{ neighborhood.name }}, San Francisco, CA"> 
         {{ neighborhood.name }}
-      </option>
+        </option>
+      {% endif %}
     {% endfor %} 
   </select><br>
   <p hidden class='address-search'> What is your address? </p><br>
@@ -35,5 +37,6 @@
   <br>
 </form>
 <button id='search'>Go</button>
+<div id='neighborhood-welcome'></div>
 <div id='map'></div>
 {% endblock %}

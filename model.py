@@ -1,4 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
+from geoalchemy2.types import Geometry
 
 db = SQLAlchemy()
 
@@ -32,7 +33,13 @@ class Neighborhood(db.Model):
 
     neighborhood_id = db.Column(db.Integer, autoincrement=True,
                                 primary_key=True)
-    name = db.Column(db.String(40), nullable=False)
+
+    state = db.Column(db.String(2), nullable=False)
+    county = db.Column(db.String(45), nullable=False)
+    city = db.Column(db.String(64), nullable=False)
+    name = db.Column(db.String(64), nullable=False)
+    regionid = db.Column(db.Integer)
+    geom = db.Column(Geometry('MULTIPOLYGON', srid=4269), nullable=False)
 
     def __repr__(self):
         """Provides a representation of neighborhoods"""
@@ -65,12 +72,12 @@ class FavPlace(db.Model):
     place_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     name = db.Column(db.String(100), nullable=False, unique=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
-    # neighborhood_id = db.Column(db.Integer, db.ForeignKey('neighborhoods.neighborhood_id'))
+    neighborhood_id = db.Column(db.Integer, db.ForeignKey('neighborhoods.neighborhood_id'))
     service_id = db.Column(db.Integer, db.ForeignKey('services.service_id'))
 
     user = db.relationship('User', backref=db.backref('fav_places', order_by=place_id))
-    # neighborhood = db.relationship('Neighborhood', backref=db.backref('fav_places', 
-    #                                                                   order_by=place_id))
+    neighborhood = db.relationship('Neighborhood', backref=db.backref('fav_places', 
+                                                                      order_by=place_id))
     service = db.relationship('Service', backref=db.backref('fav_places', 
                                                          order_by=place_id))
 

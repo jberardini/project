@@ -19,7 +19,7 @@ function chooseNeighborhoodSearch() {
 }
 
 function chooseAddressSearch() {
-  $("select option[value='blank']").attr('selected', true);
+  $('#neighborhood').val('blank')
   $('.neighborhood-search').hide();
   $('.address-search').show();
 }

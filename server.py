@@ -114,12 +114,24 @@ def get_fav_place_info():
     neighborhood = user.user_neighborhood
 
     fav_places = user.fav_places
-    
+    service_ids = []
+    for fav_place in fav_places:
+        service_ids.append(fav_place.service_id)
 
+    services = db.session.query(Service).all()
+    all_service_ids = []
+    for service in services:
+        all_service_ids.append(service.service_id)
+    
+    recs = set(all_service_ids) ^ set(service_ids)
+    
     neighborhood_location = get_geocode(neighborhood, api_key)
     fav_place_info = get_fav_places(fav_places, neighborhood)
+    recs_info = create_service_list(recs, neighborhood)
+    print recs_info
 
-    important_info = {'neighborhood': neighborhood_location, 'fav_places': fav_place_info}
+    important_info = {'neighborhood': neighborhood_location, 'fav_places': fav_place_info,
+                      'recs': recs_info}
 
     return jsonify(important_info)
 

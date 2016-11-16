@@ -11,9 +11,11 @@
     What neighborhood do you live in?  
     <select name='neighborhood'>
     {% for neighborhood in neighborhoods %}
-      <option value="{{ neighborhood.name }}, San Francisco, CA"> 
-        {{ neighborhood.name }}
-      </option>
+      {% if neighborhood.county == 'San Francisco' %}
+        <option value="{{ neighborhood.name }}, San Francisco, CA"> 
+          {{ neighborhood.name }}
+        </option>
+      {% endif %}
     {% endfor %} 
     </select><br>
     <input type='submit' value='Submit'>

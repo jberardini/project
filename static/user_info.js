@@ -12,7 +12,6 @@ function initMap() {
 
     for (var key in results.fav_places) {
       var service = results.fav_places[key];
-      console.log(service)
       $('#fav_places').append('<li>'+key+'</li>');
       var position = new google.maps.LatLng(service.lat, service.lng);
       var image = "/../"+ service.picture
@@ -22,6 +21,11 @@ function initMap() {
         map: map,
         icon: image,
       });
+
+      for (var rec in results.recs){
+        var rec_info = results.recs[rec];
+        $('#recs').append('<li><a href='+rec_info.url+' target=_blank><img src=/../'+rec_info.picture+'/>'+rec_info.name+'</a></li>');
+      }
 
       var infoWindow = new google.maps.InfoWindow({width: 150});
 

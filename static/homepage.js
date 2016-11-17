@@ -3,12 +3,10 @@
 function getMap(evt) {
   evt.preventDefault();
   var neighborhood = $('#neighborhood > option:selected').val();
-  console.log(neighborhood)
   var services = $('input:checkbox:checked').map(function() {
     return parseInt($(this).val());
   }).get();
   var address = $('#address').val();
-  console.log(address)
   $.get('/info.json', {'neighborhood': neighborhood, 'services': services, 'address': address}, createMap);       
 }
 

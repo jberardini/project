@@ -2,21 +2,18 @@
 
 
 function createMap(results) {
-  console.log(results)
   $('#neighborhood-welcome').html('Welcome to'+ ' ' +String(results.name))
-  // var position = results.neighborhood
   var position = results.neighborhood
   var map = new google.maps.Map(document.getElementById("map"), {
     zoom: 15,
     center: position
   });
-  console.log("Map created")
    // creates markers
-  for (var key in results.services) {
-    var service = results.services[key];
-    var image = service.picture
+  for (var service_id in results.services) {
+    var service_info = results.services[service_id];
+    var image = service_info.picture
     var marker = new google.maps.Marker({
-      position: new google.maps.LatLng(service.lat, service.lng),
+      position: new google.maps.LatLng(service_info.lat, service_info.lng),
       map: map,
       icon: image,
     });
@@ -25,19 +22,18 @@ function createMap(results) {
 
     var html = (
       '<div class="window-content">' +
-         '<p id='+key + '>' + service.name + '</p>' +
-         '<p><b>Url: </b> <a href=' + service.url + ' target=_blank>Website</a></p>' +
+         '<p>' + service_info.name + '</p>' +
+         '<p><b>Url: </b> <a href=' + service_info.url + ' target=_blank>Website</a></p>' +
          '<p><b>Add to Favorites:</b></p>' +
-         '<img src=/static/img/like-1.png class=favorite data-neighborhood="'+service.neighborhood+'" id='+key+' data-name="'+service.name+
-         '">' +
+         '<img src=/static/img/like-1.png class=favorite data-url='+service_info.url+' data-neighborhood="'+service_info.neighborhood+'" id='+service_id+' data-name="'+service_info.name+'" data-lat='+service_info.lat+' data-lng='+service_info.lng+'>' +
       '</div>');
+
 
     infoWindow.setContent(html);
 
     bindInfoWindow(marker, map, infoWindow);
   }
 
-  console.log(results.coordinates);
   map.data.addGeoJson(results.coordinates);
 
   var prevInfoWindow=false;
@@ -49,7 +45,6 @@ function createMap(results) {
 
     prevInfoWindow = infoWindow;
     infoWindow.open(map, marker);
-      console.log($('#logged-in').length)
       if ($('#logged-out').length === 0) {
         $('.favorite').on('click', heartClick);
       } else {
@@ -64,11 +59,14 @@ function createMap(results) {
 }
 
 
-function heartClick(){
+function heartClick() {
   var service_id = parseInt($(this).attr('id'))
   var name = $(this).attr('data-name')
   var neighborhood = $(this).attr('data-neighborhood')
-  $.get('/set_favorite', {service_id: service_id, name: name, neighborhood: neighborhood}, function() {
+  var url = $(this).attr('data-url')
+  var lat = parseFloat($(this).attr('data-lat'))  
+  var lng = parseFloat($(this).attr('data-lng'))
+  $.get('/set_favorite', {service_id: service_id, name: name, neighborhood: neighborhood, url: url, lat: lat, lng: lng}, function() {
     if ($('.favorite').attr('src')==='/static/img/like-1.png') {
       $('.favorite').attr('src', '/static/img/like.png');
     } else {

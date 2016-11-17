@@ -74,6 +74,10 @@ class FavPlace(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
     neighborhood_id = db.Column(db.Integer, db.ForeignKey('neighborhoods.neighborhood_id'))
     service_id = db.Column(db.Integer, db.ForeignKey('services.service_id'))
+    url = db.Column(db.String(500), nullable = False)
+    lat = db.Column(db.Float, nullable = False)
+    lng = db.Column(db.Float, nullable = False)
+
 
     user = db.relationship('User', backref=db.backref('fav_places', order_by=place_id))
     neighborhood = db.relationship('Neighborhood', backref=db.backref('fav_places', 

@@ -83,18 +83,18 @@ def create_service_list(service_ids, neighborhood):
 
     return services
 
-def get_fav_places(fav_places, neighborhood):
-    """Gets fav places from Yelp's API"""
+# def get_fav_places(fav_places, neighborhood):
+#     """Gets fav places from Yelp's API"""
     
-    fav_place_info={}
-    for fav_place in fav_places:
-        yelp_info = make_yelp_call(location=neighborhood, term=fav_place.name)
-        lat = yelp_info['businesses'][0]['location']['coordinate']['latitude']
-        lng = yelp_info['businesses'][0]['location']['coordinate']['longitude']
-        url = yelp_info['businesses'][0]['url']
-        picture = fav_place.service.picture
+#     fav_place_info={}
+#     for fav_place in fav_places:
+#         yelp_info = make_yelp_call(location=neighborhood, term=fav_place.name)
+#         lat = yelp_info['businesses'][0]['location']['coordinate']['latitude']
+#         lng = yelp_info['businesses'][0]['location']['coordinate']['longitude']
+#         url = yelp_info['businesses'][0]['url']
+#         picture = fav_place.service.picture
 
-        fav_place_info[fav_place.name] = {'url': url, 'lat': lat, 'lng': lng, 
-                                          'picture': picture}
+#         fav_place_info[fav_place.name] = {'url': url, 'lat': lat, 'lng': lng, 
+#                                           'picture': picture}
 
-    return fav_place_info
+#     return fav_place_info

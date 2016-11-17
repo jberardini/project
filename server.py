@@ -7,7 +7,7 @@ from flask import Flask, jsonify, render_template, redirect, request, flash, ses
 from model import connect_to_db, db, User, Neighborhood, Service, FavPlace
 from flask_debugtoolbar import DebugToolbarExtension
 from os import environ
-from api_call import get_geocode, create_service_list, get_fav_places
+from api_call import get_geocode, create_service_list
 import json
 import geoalchemy2
 
@@ -73,20 +73,27 @@ def get_yelp_info():
 
 @app.route('/set_favorite')
 def set_favorite():
+    """Gets user favorite and adds to db"""
+
+    user_id = session['user_id']
     service_id = request.args.get('service_id', 0, type=int)
     name = request.args.get('name', 0, type=str)
     neighborhood = request.args.get('neighborhood', 0, type=str)
-    print neighborhood
-    full_neighborhood = neighborhood.split(',')
-    neighborhood_name = full_neighborhood[0]
-    neighborhood=db.session.query(Neighborhood).filter_by(name=neighborhood_name).one()
-    user_id = session['user_id']
+    url = request.args.get('url', 0, type=str)
+    lat = request.args.get('lat', 0, type=float)
+    lng = request.args.get('lng', 0, type=float)
+    print lat
+    print lng
 
+    neighborhood_name, county, state = neighborhood.split(',')
+
+    neighborhood=db.session.query(Neighborhood).filter_by(name=neighborhood_name).one()
     place_search = db.session.query(FavPlace).filter_by(name=name).all()
 
     if not place_search:
         new_fav_place = FavPlace(name=name, user_id=user_id, service_id=service_id, 
-                             neighborhood_id=neighborhood.neighborhood_id)
+                                 neighborhood_id=neighborhood.neighborhood_id, url=url,
+                                 lat=lat, lng=lng)
         db.session.add(new_fav_place)
     else:
         place = place_search[0]
@@ -115,8 +122,14 @@ def get_fav_place_info():
 
     fav_places = user.fav_places
     service_ids = []
+    fav_place_info={}
     for fav_place in fav_places:
         service_ids.append(fav_place.service_id)
+        fav_place_info[fav_place.name]={'url': fav_place.url,
+                                        'lat': fav_place.lat,
+                                        'lng': fav_place.lng,
+                                        'picture': fav_place.service.picture}
+
 
     services = db.session.query(Service).all()
     all_service_ids = []
@@ -126,12 +139,16 @@ def get_fav_place_info():
     recs = set(all_service_ids) ^ set(service_ids)
     
     neighborhood_location = get_geocode(neighborhood, api_key)
-    fav_place_info = get_fav_places(fav_places, neighborhood)
     recs_info = create_service_list(recs, neighborhood)
-    print recs_info
 
-    important_info = {'neighborhood': neighborhood_location, 'fav_places': fav_place_info,
+
+
+
+    important_info = {'neighborhood': neighborhood_location,'neighborhood_name': neighborhood, 'fav_places': fav_place_info,
                       'recs': recs_info}
+
+    print important_info['fav_places']
+
 
     return jsonify(important_info)
 

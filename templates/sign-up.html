@@ -12,7 +12,7 @@
     <select name='neighborhood'>
     {% for neighborhood in neighborhoods %}
       {% if neighborhood.county == 'San Francisco' %}
-        <option value="{{ neighborhood.name }}, San Francisco, CA"> 
+        <option value="{{ neighborhood.name }}, {{ neighborhood.city }}, {{ neighborhood.state }}"> 
           {{ neighborhood.name }}
         </option>
       {% endif %}

@@ -117,7 +117,7 @@ def get_fav_place_info():
 
     user_id=session['user_id']
     user = db.session.query(User).filter_by(user_id=user_id).one()
-    neighborhood = user.user_neighborhood
+    neighborhood = "{}, {}, {}".format(user.neighborhood.name, user.neighborhood.city,user.neighborhood.state)
 
     fav_places = user.fav_places
     service_ids = []
@@ -200,10 +200,15 @@ def process_sign_up():
     email = request.form.get('email')
     password = request.form.get('password')
     user_neighborhood = request.form.get('neighborhood')
+    name, city, state = user_neighborhood.split(', ')
+
+    neighborhood_id = db.session.query(Neighborhood.neighborhood_id).filter(and_(Neighborhood.name==name, Neighborhood.city==city)).one()
+    print neighborhood_id
     user = db.session.query(User).filter_by(email=email).all()
 
+
     if not user:
-        new_user = User(email=email, password=password, user_neighborhood=user_neighborhood)
+        new_user = User(email=email, password=password, neighborhood_id=neighborhood_id)
         db.session.add(new_user)
         db.session.commit()
         flash('Your account has been created. Please log in.')

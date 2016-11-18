@@ -35,4 +35,7 @@ $(document).ready(function () {
   $('#address-search').on('click', chooseAddressSearch);
   $('#search').on('click', getMap);
   $('.jumper').on('click', scrollWindow)
-})
+  $('#search').on('click', function() {
+    $('#service-search').appendTo('#new-service-search');
+  });
+});

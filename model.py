@@ -17,14 +17,15 @@ class User(db.Model):
     password = db.Column(db.String(64), nullable=False)
     first_name = db.Column(db.String(64))
     address = db.Column(db.String(100))
-    user_neighborhood = db.Column(db.String(100))
+    neighborhood_id = db.Column(db.Integer, db.ForeignKey('neighborhoods.neighborhood_id'))
+
+    neighborhood = db.relationship('Neighborhood', backref=db.backref('users', 
+                                                                      order_by=user_id))
 
     def __repr__(self):
         """Provides a representation of users"""
 
-        return '<User user_id = {} email = {} neighborhood = {}>'.format(self.user_id,
-                                                                         self.email,
-                                                                         self.user_neighborhood)
+        return '<User user_id = {} email = {}>'.format(self.user_id, self.email)
 
 class Neighborhood(db.Model):
     """Neighborhoods in the Bay Area"""
@@ -39,7 +40,7 @@ class Neighborhood(db.Model):
     city = db.Column(db.String(64), nullable=False)
     name = db.Column(db.String(64), nullable=False)
     regionid = db.Column(db.Integer)
-    geom = db.Column(Geometry('MULTIPOLYGON', srid=4269), nullable=False)
+    geom = db.Column(Geometry('MULTIPOLYGON', srid=4269), nullable=True)
 
     def __repr__(self):
         """Provides a representation of neighborhoods"""
@@ -102,21 +103,23 @@ def example_data():
     Service.query.delete()
 
     # Add sample employees and departments
-    mission = Neighborhood(state='CA', county='San Francisco', city='San Francisco', name='Mission', geom='MULTIPOLYGON((0 0, 1 0, 1 1, 0 1, 0 0))')
-    pacheights = Neighborhood(state='CA', county='San Francisco', city='San Francisco', name='Pacific Heights', geom='MULTIPOLYGON((0 0, 1 0, 1 1, 0 1, 0 0))')
-    castro = Neighborhood(state='CA', county='San Francisco', city='San Francisco', name='Castro', geom='MULTIPOLYGON((0 0, 1 0, 1 1, 0 1, 0 0))')
+    mission = Neighborhood(state='CA', county='San Francisco', city='San Francisco', name='Mission')
+    pacheights = Neighborhood(state='CA', county='San Francisco', city='San Francisco', name='Pacific Heights')
+    castro = Neighborhood(state='CA', county='San Francisco', city='San Francisco', name='Castro')
 
     hair_salon = Service(yelp_code='hair', name='hair salon', picture='static/img/hair-salon.png')
     dry_cleaning = Service(yelp_code='drycleaninglaundry', name='dry-cleaning and laundry', picture='static/img/drycleaning.png')
     doctor = Service(yelp_code='physicians', name='doctor', picture='static/img/doctor.png')
     nail_salon = Service(yelp_code='othersalons', name='nail salon', picture='static/img/nail-salon.png')
 
-    db.session.add_all([misson, pacheights, castro, hair_salon, dry_cleaning, doctor, nail_salon])
+    jill = User(email='jill@gmail.com', password='easy', first_name='Jill', neighborhood_id=1)
+
+    db.session.add_all([mission, pacheights, castro, hair_salon, dry_cleaning, doctor, nail_salon, jill])
     db.session.commit()
 
 
 
-def connect_to_db(app):
+def connect_to_db(app, db_uri='postgresql:///neighbor'):
     """Connect the database to Flask app"""
 
     app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///neighbor'

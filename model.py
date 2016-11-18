@@ -94,6 +94,28 @@ class FavPlace(db.Model):
 ######################################################################
 # Helper functions
 
+def example_data():
+    """Create some sample data."""
+
+    # In case this is run more than once, empty out existing data
+    Neighborhood.query.delete()
+    Service.query.delete()
+
+    # Add sample employees and departments
+    mission = Neighborhood(state='CA', county='San Francisco', city='San Francisco', name='Mission', geom='MULTIPOLYGON((0 0, 1 0, 1 1, 0 1, 0 0))')
+    pacheights = Neighborhood(state='CA', county='San Francisco', city='San Francisco', name='Pacific Heights', geom='MULTIPOLYGON((0 0, 1 0, 1 1, 0 1, 0 0))')
+    castro = Neighborhood(state='CA', county='San Francisco', city='San Francisco', name='Castro', geom='MULTIPOLYGON((0 0, 1 0, 1 1, 0 1, 0 0))')
+
+    hair_salon = Service(yelp_code='hair', name='hair salon', picture='static/img/hair-salon.png')
+    dry_cleaning = Service(yelp_code='drycleaninglaundry', name='dry-cleaning and laundry', picture='static/img/drycleaning.png')
+    doctor = Service(yelp_code='physicians', name='doctor', picture='static/img/doctor.png')
+    nail_salon = Service(yelp_code='othersalons', name='nail salon', picture='static/img/nail-salon.png')
+
+    db.session.add_all([misson, pacheights, castro, hair_salon, dry_cleaning, doctor, nail_salon])
+    db.session.commit()
+
+
+
 def connect_to_db(app):
     """Connect the database to Flask app"""
 

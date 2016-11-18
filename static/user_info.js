@@ -1,9 +1,47 @@
 'use strict';
+var map;
+
+function createSuggestedElement(rec, rec_info, results) {
+  // creating html element
+  var $li = $("<li></li>");
+  var $img = $("<img></img>");
+  var imgUrl =  '/../' + rec_info.picture;
+  var $a = $("<a></a>")
+  var $button = $('<button></button>');
+  var name = rec_info.name 
+
+  //setting attributes of html element
+  $img.attr('src', imgUrl);
+  $a.html(rec_info.name)
+  $a.attr('href', rec_info.url)
+  $button.html('add to favorites')
+
+  // adds a new marker on the map
+  $button.on('click', function() {
+     var position = new google.maps.LatLng(rec_info.lat, rec_info.lng);
+     var marker = new google.maps.Marker({
+        position: position,
+        map: map,
+        icon: imgUrl,
+      });
+    $.get('/set_favorite', {'service_id': rec, 'name': rec_info.name,
+                            'neighborhood': results.neighborhood_name,
+                            'url': rec_info.url, 'lat': rec_info.lat,
+                            'lng': rec_info.lng }, function() {
+                              console.log('Success!')
+                            });
+  });
+  $li.append($img);
+  $li.append($a);
+
+  $li.append($button)
+  return $li;
+}
 
 function initMap() {
   $.get('/fav.json',  function (results) {
     var center = results.neighborhood;
-    var map = new google.maps.Map(document.getElementById('favs_map'), {
+    map = new google.maps.Map(document.getElementById('favs_map'), {
       center: center,
       zoom: 15
     });
@@ -24,13 +62,9 @@ function initMap() {
       for (var rec in results.recs){
         var rec_info = results.recs[rec];
         console.log(rec_info.url);
-        var my_string = '<li><a href='+rec_info.url+' target=_blank><img src=/../'+
-                          rec_info.picture+'/>'+rec_info.name+'</a><button class=add2map onclick="addToMap('
-                          +rec+', "'+rec_info.name+'", "'+results.neighborhood_name+
-                          '", "'+rec_info.url+'", '+rec_info.lat+', '+rec_info.lng+
-                          ')">Add to favorites</button></li>';
-        console.log(my_string);
-        $('#recs').append(my_string);
+        var suggested_element = createSuggestedElement(rec, rec_info, results); 
+        
+        $('#recs').append(suggested_element);
       }
 
       var infoWindow = new google.maps.InfoWindow({width: 150});
@@ -61,10 +95,3 @@ function initMap() {
 }
 
 google.maps.event.addDomListener(window, 'load', initMap);
-
-function addToMap(service_id, name, neighborhood, url, lat, lng) {
-  alert('hi!')
-  // $.get('/set_favorite', {service_id: service_id, name: name, 
-  //                         neighborhood: neighborhood, url: url, lat: lat, lng: lng})
-  // make an AJAX call to some route to (1) send the data on the place, (2) add it to the DB, and (3) create a marker on a map with an info window, using coordinates, picture, name and url
-}

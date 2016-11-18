@@ -77,7 +77,3 @@ function heartClick() {
 
 
 
-
-// function heartClick() {
-//   alert('hello');
-//   }

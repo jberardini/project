@@ -22,9 +22,17 @@ function chooseAddressSearch() {
   $('.address-search').show();
 }
 
+function scrollWindow(evt) {
+  evt.preventDefault();
+  $('body, html').animate({
+    scrollTop: $($(this).attr('href')).offset().top
+  }, 1000);
+}
+
 
 $(document).ready(function () {
   $('#neighborhood-search').on('click', chooseNeighborhoodSearch);
   $('#address-search').on('click', chooseAddressSearch);
   $('#search').on('click', getMap);
+  $('.jumper').on('click', scrollWindow)
 })

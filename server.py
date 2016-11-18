@@ -10,6 +10,7 @@ from os import environ
 from api_call import get_geocode, create_service_list
 import json
 import geoalchemy2
+from sqlalchemy import and_
 
 app = Flask(__name__)
 
@@ -48,8 +49,8 @@ def get_yelp_info():
                                            neighborhood_item.state)
 
     else:
-        name, city, state = neighborhood.split(',')
-        neighborhood_item = db.session.query(Neighborhood).filter_by(name=name).one()
+        name, city, state = neighborhood.split(', ')
+        neighborhood_item = db.session.query(Neighborhood).filter(and_(Neighborhood.name==name, Neighborhood.city==city)).one()
 
     neighborhood_location = get_geocode(neighborhood, api_key)
     service_locations = create_service_list(services, neighborhood)
@@ -82,10 +83,8 @@ def set_favorite():
     url = request.args.get('url', 0, type=str)
     lat = request.args.get('lat', 0, type=float)
     lng = request.args.get('lng', 0, type=float)
-    print lat
-    print lng
 
-    neighborhood_name, county, state = neighborhood.split(',')
+    neighborhood_name, county, state = neighborhood.split(', ')
 
     neighborhood=db.session.query(Neighborhood).filter_by(name=neighborhood_name).one()
     place_search = db.session.query(FavPlace).filter_by(name=name).all()
@@ -141,13 +140,9 @@ def get_fav_place_info():
     neighborhood_location = get_geocode(neighborhood, api_key)
     recs_info = create_service_list(recs, neighborhood)
 
-
-
-
     important_info = {'neighborhood': neighborhood_location,'neighborhood_name': neighborhood, 'fav_places': fav_place_info,
                       'recs': recs_info}
 
-    print important_info['fav_places']
 
 
     return jsonify(important_info)

@@ -1,0 +1,20 @@
+#welcome-page {
+    background-image: url('img/sf_skyline.jpg');
+    height: 1000px;
+    background-attachment: fixed;
+}
+
+#search-option {
+    background-image: url('img/sf2.jpg');
+    height: 1000px;
+    background-attachment: fixed;   
+}
+
+#service-search {
+    height: 1000px;
+    background-attachment: fixed;   
+}
+
+#neighborhood-welcome {
+    font-size: 48px;
+}

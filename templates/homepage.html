@@ -3,42 +3,57 @@
 {% block title %}Welcome to the Neighborhood{% endblock %}
 
 {% block head %}
-<script async defer src="https://maps.googleapis.com/maps/api/js?sensor=false&key={{ api_key }}"></script>
-<script type='text/javascript' src='/static/neighborhood.js'></script>
-<script type='text/javascript' src='/static/homepage.js'></script>
+  <link href="/static/homepage.css" rel="stylesheet">
+  <script async defer src="https://maps.googleapis.com/maps/api/js?sensor=false&key={{ api_key }}"></script>
+  <script type='text/javascript' src='/static/neighborhood.js'></script>
+  <script type='text/javascript' src='/static/homepage.js'></script>
 {% endblock %}
 
 {% block content %}
-  <h1>Welcome to the Neighborhood</h1>
+  <div id='welcome-page'>
+    <h1>Welcome to the Neighborhood</h1>
+    <p>Get going fast in your new neighborhood with our recommendations</p>
+    <a class='jumper' href='#search-option'>Next</a>
+  </div>
 
-  <form>
-    <p>I'd like to search by:</p>
-    <input type='radio' name='search-type' id='neighborhood-search'>Neighborhood <br>
-    <input type='radio' name='search-type' id='address-search'>Address<br>
+  <div id='search-option'>
+    <form>
+      <p>I'd like to search by:</p>
+      <input type='radio' name='search-type' id='neighborhood-search'>Neighborhood <br>
+      <input type='radio' name='search-type' id='address-search'>Address<br>
+      <p hidden class='neighborhood-search'>What neighborhood do you live in?</p><br>
+      <select name='neighborhood' id='neighborhood' class='neighborhood-search' hidden>
+        <option value='blank' selected='selected'></option>
+        {% for neighborhood in neighborhoods %}
+          {% if neighborhood.county == 'San Francisco' %}
+            <option value="{{ neighborhood.name }}, {{ neighborhood.city }}, {{ neighborhood.state }}"> 
+            {{ neighborhood.name }}
+            </option>
+          {% endif %}
+        {% endfor %} 
+      </select><br>
+      <p hidden class='address-search'> What is your address? </p><br>
+      <input type='text' name='address' id='address' class='address-search' hidden><br><br>
+      <button><a class='jumper' href='#service-search'>Go</a></button>
+    </form>
+  </div>
+  <br>
 
-    <p hidden class='neighborhood-search'>What neighborhood do you live in?</p><br>
-    <select name='neighborhood' id='neighborhood' class='neighborhood-search' hidden>
-      <option value='blank' selected='selected'></option>
-      {% for neighborhood in neighborhoods %}
-        {% if neighborhood.county == 'San Francisco' %}
-          <option value="{{ neighborhood.name }}, {{ neighborhood.city }}, {{ neighborhood.state }}"> 
-          {{ neighborhood.name }}
-          </option>
-        {% endif %}
-      {% endfor %} 
-    </select><br>
-
-    <p hidden class='address-search'> What is your address? </p><br>
-    <input type='text' name='address' id='address' class='address-search' hidden><br><br>
-    I'm looking for: <br>
-    {% for service in services %}
-      <input type='checkbox' name='service' value='{{ service.service_id }}'>
-      {{ service.name }}
+  <div id='service-search'>
+    <form>
+      I'm looking for: <br>
+      {% for service in services %}
+        <input type='checkbox' name='service' value='{{ service.service_id }}'>
+        {{ service.name }}
+        <br>
+      {% endfor %}
       <br>
-    {% endfor %}
-    <br>
-  </form>
-  <button id='search'>Go</button>
-  <div id='neighborhood-welcome'></div>
-  <div id='map'></div>
+    </form>
+    <button id='search'><a class='jumper' href='#results'>Go</a></button>
+  </div>
+  
+  <div id ='results'></div>
+    <div id='neighborhood-welcome'></div>
+    <div id='map'></div>
+  </div>
 {% endblock %}

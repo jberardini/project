@@ -101,6 +101,7 @@ def example_data():
     # In case this is run more than once, empty out existing data
     Neighborhood.query.delete()
     Service.query.delete()
+    User.query.delete()
 
     # Add sample employees and departments
     mission = Neighborhood(state='CA', county='San Francisco', city='San Francisco', name='Mission')

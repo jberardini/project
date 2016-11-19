@@ -45,9 +45,9 @@ class FlaskTestsDatabase(TestCase):
         """Test login page."""
 
         result = self.client.post("/logged-in", 
-                                  data={"email": "rachel@gmail.com", "password": "123"},
+                                  data={"email": "jill@gmail.com", "password": "easy"},
                                   follow_redirects=True)
-        self.assertIn("You are now logged in", result.data)
+        self.assertIn("logged in", result.data)
 
 
 if __name__ == "__main__":

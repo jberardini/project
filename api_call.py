@@ -16,6 +16,7 @@ def get_geocode(location, api_key):
 
     location_info = r.json()
 
+
     coordinates = location_info['results'][0]['geometry']['location']
     
     return coordinates

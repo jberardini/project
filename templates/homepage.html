@@ -17,7 +17,7 @@
   </div>
 
   <div id='search-option'>
-    <form>
+    <form id='geo-search'>
       <p>I'd like to search by:</p>
       <input type='radio' name='search-type' id='neighborhood-search'>Neighborhood <br>
       <input type='radio' name='search-type' id='address-search'>Address<br>
@@ -34,8 +34,8 @@
       </select><br>
       <p hidden class='address-search'> What is your address? </p><br>
       <input type='text' name='address' id='address' class='address-search' hidden><br><br>
-      <button><a class='jumper' href='#service-search'>Go</a></button>
     </form>
+    <button><a class='jumper' href='#service-search'>Go</a></button>
   </div>
   <br>
 
@@ -49,12 +49,12 @@
       {% endfor %}
       <br>
     </form>
-    <button id='search'><a class='jumper' href='#results'>Go</a></button>
+    <button id='search'>Go</button>
   </div>
   
-  <div id ='results'></div>
+  <div id ='results' style='width: 100%; overflow: hidden;'></div>
     <div id='neighborhood-welcome'></div>
-    <div id='map'></div>
-    <div id='new-service-search'></div>
+    <div id='new-search-bar' style='width: 200px; float:left;'></div>
+    <div id='map' style='margin-left:220px;'></div>
   </div>
 {% endblock %}

@@ -99,9 +99,10 @@ def example_data():
     """Create some sample data."""
 
     # In case this is run more than once, empty out existing data
+    User.query.delete()
     Neighborhood.query.delete()
     Service.query.delete()
-    User.query.delete()
+
 
     # Add sample employees and departments
     mission = Neighborhood(state='CA', county='San Francisco', city='San Francisco', name='Mission')
@@ -123,7 +124,7 @@ def example_data():
 def connect_to_db(app, db_uri='postgresql:///neighbor'):
     """Connect the database to Flask app"""
 
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///neighbor'
+    app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
     db.app = app
     db.init_app(app)
 

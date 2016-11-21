@@ -11,6 +11,7 @@ from api_call import get_geocode, create_service_list
 import json
 import geoalchemy2
 from sqlalchemy import and_
+from db_queries import query_from_address
 
 app = Flask(__name__)
 
@@ -41,12 +42,12 @@ def get_yelp_info():
 
     if address:
         address_location = get_geocode(address, api_key)
-        point1 = 'POINT(' + str(address_location['lng']) + " " + str(address_location['lat'])+ ')'
-        point = geoalchemy2.elements.WKTElement(point1, srid=4326)
-        neighborhood_item = db.session.query(Neighborhood).filter(Neighborhood.geom.ST_Contains(geoalchemy2.functions.ST_Transform(point, 4269))).one()
+        neighborhood_item = query_from_address(address_location)
         neighborhood = "{}, {}, {}".format(neighborhood_item.name, 
                                            neighborhood_item.city, 
                                            neighborhood_item.state)
+
+
 
     else:
         name, city, state = neighborhood.split(', ')
@@ -84,9 +85,9 @@ def set_favorite():
     lat = request.args.get('lat', 0, type=float)
     lng = request.args.get('lng', 0, type=float)
 
-    neighborhood_name, county, state = neighborhood.split(', ')
+    neighborhood_name, city, state = neighborhood.split(', ')
 
-    neighborhood=db.session.query(Neighborhood).filter_by(name=neighborhood_name).one()
+    neighborhood=db.session.query(Neighborhood).filter_by(name=neighborhood_name, city=city).one()
     place_search = db.session.query(FavPlace).filter_by(name=name).all()
 
     if not place_search:
@@ -118,6 +119,9 @@ def get_fav_place_info():
     user_id=session['user_id']
     user = db.session.query(User).filter_by(user_id=user_id).one()
     neighborhood = "{}, {}, {}".format(user.neighborhood.name, user.neighborhood.city,user.neighborhood.state)
+    coordinates = json.loads(db.session.scalar(geoalchemy2.functions.ST_AsGeoJSON(user.neighborhood.geom)))
+
+
 
     fav_places = user.fav_places
     service_ids = []
@@ -140,9 +144,17 @@ def get_fav_place_info():
     neighborhood_location = get_geocode(neighborhood, api_key)
     recs_info = create_service_list(recs, neighborhood)
 
-    important_info = {'neighborhood': neighborhood_location,'neighborhood_name': neighborhood, 'fav_places': fav_place_info,
-                      'recs': recs_info}
-
+    important_info = {'neighborhood': neighborhood_location,
+                      'neighborhood_name': neighborhood, 
+                      'fav_places': fav_place_info,
+                      'recs': recs_info,
+                      'coordinates': {
+                          'type': 'FeatureCollection', 
+                          'features': [
+                              {'type': 'Feature',     
+                               'geometry': coordinates
+                              }]
+                          }}
 
 
     return jsonify(important_info)

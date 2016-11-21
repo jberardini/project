@@ -33,9 +33,13 @@ function scrollWindow(evt) {
 $(document).ready(function () {
   $('#neighborhood-search').on('click', chooseNeighborhoodSearch);
   $('#address-search').on('click', chooseAddressSearch);
-  $('#search').on('click', getMap);
   $('.jumper').on('click', scrollWindow)
+  $('#search').on('click', getMap)
   $('#search').on('click', function() {
-    $('#service-search').appendTo('#new-service-search');
+    $('#geo-search').appendTo('#new-search-bar');
+    $('#service-search').appendTo('#new-search-bar');
+    $('#welcome-page').hide();
+    $('#search-option').hide();
+    window.scrollTo(0,0);
   });
 });

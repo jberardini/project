@@ -49,6 +49,13 @@ class FlaskTestsDatabase(TestCase):
                                   follow_redirects=True)
         self.assertIn("logged in", result.data)
 
+    def test_db_lists(self):
+        """Tests that neighborhoods are displayed properly"""
+
+        result = self.client.get('/')
+        self.assertIn('Mission', result.data)
+        self.assertIn('dry-cleaning', result.data)
+
 
 if __name__ == "__main__":
     import unittest

@@ -11,7 +11,7 @@ from api_call import get_geocode, create_service_list
 import json
 import geoalchemy2
 from sqlalchemy import and_
-from db_queries import query_from_address
+from db_queries import query_from_address, send_fav_to_db
 
 app = Flask(__name__)
 
@@ -35,7 +35,7 @@ def index():
 def get_yelp_info():
     "Gets info from yelp and geocode info from Google"
     
-    neighborhood = request.args.get('neighborhood')
+    neighborhood_id = request.args.get('neighborhood_id')
     services = request.args.getlist('services[]')
     address = request.args.get('address')
 
@@ -43,23 +43,23 @@ def get_yelp_info():
     if address:
         address_location = get_geocode(address, api_key)
         neighborhood_item = query_from_address(address_location)
-        neighborhood = "{}, {}, {}".format(neighborhood_item.name, 
-                                           neighborhood_item.city, 
-                                           neighborhood_item.state)
-
-
 
     else:
-        name, city, state = neighborhood.split(', ')
-        neighborhood_item = db.session.query(Neighborhood).filter(and_(Neighborhood.name==name, Neighborhood.city==city)).one()
+        neighborhood_item = db.session.query(Neighborhood).filter(Neighborhood.neighborhood_id==neighborhood_id).one()
+
+    neighborhood = '{}, {}, {}'.format(neighborhood_item.name,
+                                       neighborhood_item.city,
+                                       neighborhood_item.state)
 
     neighborhood_location = get_geocode(neighborhood, api_key)
     service_locations = create_service_list(services, neighborhood)
     coordinates = json.loads(db.session.scalar(geoalchemy2.functions.ST_AsGeoJSON(neighborhood_item.geom)))
 
+    
+
     all_info = {'neighborhood': neighborhood_location, 
                 'services': service_locations,
-                'name': neighborhood_item.name,
+                'name': neighborhood,
                 'coordinates': {
                     'type': 'FeatureCollection', 
                     'features': [
@@ -81,26 +81,17 @@ def set_favorite():
     service_id = request.args.get('service_id', 0, type=int)
     name = request.args.get('name', 0, type=str)
     neighborhood = request.args.get('neighborhood', 0, type=str)
+    print neighborhood
     url = request.args.get('url', 0, type=str)
     lat = request.args.get('lat', 0, type=float)
     lng = request.args.get('lng', 0, type=float)
 
     neighborhood_name, city, state = neighborhood.split(', ')
 
-    neighborhood=db.session.query(Neighborhood).filter_by(name=neighborhood_name, city=city).one()
-    place_search = db.session.query(FavPlace).filter_by(name=name).all()
-
-    if not place_search:
-        new_fav_place = FavPlace(name=name, user_id=user_id, service_id=service_id, 
-                                 neighborhood_id=neighborhood.neighborhood_id, url=url,
-                                 lat=lat, lng=lng)
-        db.session.add(new_fav_place)
-    else:
-        place = place_search[0]
-        db.session.delete(place)
-    db.session.commit() 
+    send_fav_to_db(neighborhood_name, city, name, user_id, service_id, url, lat, lng)    
     
     data = jsonify('Added to favorite places')
+
     return data
 
 

@@ -87,3 +87,22 @@ function heartClick (key){
 
  {% block title %}Welcome to {{ user.neighborhood }}
 {% endblock %}
+
+  $img.on('click', function() {
+    console.log('hi');
+    if ($('#logged-out').length === 0) {
+      $.get('/set_favorite', {service_id: service_id, 
+                              name: service_info.name, 
+                              neighborhood: neighborhood, 
+                              url: url, 
+                              lat: lat, 
+                              lng: lng}, function() {
+        if ($('.favorite').attr('src')==='/static/img/like-1.png') {
+          $('.favorite').attr('src', '/static/img/like.png');
+        } else {
+          $('.favorite').attr('src', '/static/img/like-1.png');
+        }
+      });
+    } else {
+        alert('You must create an account to save a favorite place. Click here to sign up.')
+      } 

@@ -5,7 +5,7 @@
 {% block head %}
   <link href="/static/homepage.css" rel="stylesheet">
   <script async defer src="https://maps.googleapis.com/maps/api/js?sensor=false&key={{ api_key }}"></script>
-  <script type='text/javascript' src='/static/neighborhood.js'></script>
+  <script type='text/javascript' src='/static/neighborhood2.js'></script>
   <script type='text/javascript' src='/static/homepage.js'></script>
 {% endblock %}
 
@@ -26,7 +26,7 @@
         <option value='blank' selected='selected'></option>
         {% for neighborhood in neighborhoods %}
           {% if neighborhood.county == 'San Francisco' %}
-            <option value="{{ neighborhood.name }}, {{ neighborhood.city }}, {{ neighborhood.state }}"> 
+            <option value="{{ neighborhood.neighborhood_id }}"> 
             {{ neighborhood.name }}
             </option>
           {% endif %}
@@ -41,20 +41,23 @@
 
   <div id='service-search'>
     <form>
-      I'm looking for: <br>
+      I'm looking for:<br><br><br>
       {% for service in services %}
-        <input type='checkbox' name='service' value='{{ service.service_id }}'>
-        {{ service.name }}
-        <br>
+      <div class="container">
+        <div class='img-container'><img src="{{ service.picture }}" class='images'></div>
+        <input type='checkbox' class='checkbox' name='service' value='{{ service.service_id }}' id ='{{ service.service_id }}' required>
+        <p class='img-label'>{{ service.name }}</p>
+      </div>
       {% endfor %}
       <br>
     </form>
+    <br>
     <button id='search'>Go</button>
   </div>
   
-  <div id ='results' style='width: 100%; overflow: hidden;'></div>
+  <div id ='results'></div>
     <div id='neighborhood-welcome'></div>
-    <div id='new-search-bar' style='width: 200px; float:left;'></div>
-    <div id='map' style='margin-left:220px;'></div>
+    <div id='new-search-bar'></div>
+    <div id='map'></div>
   </div>
 {% endblock %}

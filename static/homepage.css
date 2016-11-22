@@ -1,24 +1,76 @@
 #welcome-page {
-    background-image: url('img/sf_skyline.jpg');
-    height: 1000px;
-    background-attachment: fixed;
+  background-image: url('img/sf_skyline.jpg');
+  height: 1000px;
+  width: 100%;
+  background-attachment: fixed;
 }
 
 #search-option {
-    background-image: url('img/sf2.jpg');
-    height: 1000px;
-    background-attachment: fixed;   
+  background-image: url('img/sf2.jpg');
+  height: 1000px;
+  width: 100%;
+  background-attachment: fixed;   
 }
 
 #service-search {
-    height: 1000px;
-    background-attachment: fixed;   
+  background-image: url('img/sf4.jpg');
+  height: 1000px;
+  width: 100%;
+  background-attachment: fixed;
 }
 
 #neighborhood-welcome {
-    font-size: 48px;
+  font-size: 48px;
 }
 
 #new-service-search {
-    height: 200px;
+  height: 200px;
+}
+
+.container { 
+  position: relative;
+  width: 200px; 
+  height: 150px; 
+  float: left; 
+  display: inline-block;
+  margin-right: 30px;
+  margin-top: 30px;
+  text-align: center;
+  border: thin solid gray;
+  background-color: #cccccc;
+}
+
+.checkbox { 
+  position: absolute; 
+  top: 0px; 
+  left: 0px;
+  display: inline-block;
+}
+
+.img-container {
+  margin: 25px 25px 25px 25px;
+}
+
+.img-label {
+  margin: 10px 25px 0px 25px;
+  display: inline-block;
+}
+
+#search {
+  display: block;
+}
+
+#new-search-bar {
+  width: 300px; 
+  float: left;
+}
+
+#map {
+  height: 800px;
+  margin-left:320px;
+}
+
+#results {
+  width: 100%; 
+  overflow: hidden;
 }

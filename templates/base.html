@@ -4,8 +4,18 @@
   <head>
     <title>{% block title %} {% endblock %}</title>
   </head>
-  <script src="http://code.jquery.com/jquery.js">
-  </script>
+  <script src="http://code.jquery.com/jquery.js"></script>
+
+  {% if g.jasmine_tests %}
+      <!-- stuff for testing -->
+      <link rel="stylesheet" href="/static/jasmine.min.css">
+      <script src="/static/jasmine.min.js"></script>
+      <script src="/static/jasmine-html.min.js"></script>
+      <script src="/static/boot.min.js"></script>
+      <script src="/static/jasmine-jquery.js"></script>
+      <script src="/static/jasmine-tests.js"></script>
+      <!-- end of stuff for testing -->
+  {% endif %}
 
   {% block head %}
   {% endblock %}

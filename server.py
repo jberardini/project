@@ -3,7 +3,7 @@
 # -*- coding: utf-8 -*-
 
 from jinja2 import StrictUndefined
-from flask import Flask, jsonify, render_template, redirect, request, flash, session
+from flask import Flask, jsonify, render_template, redirect, request, flash, session, g
 from model import connect_to_db, db, User, Neighborhood, Service, FavPlace
 from flask_debugtoolbar import DebugToolbarExtension
 from os import environ
@@ -19,6 +19,13 @@ app.secret_key = 'secret'
 api_key = environ['GOOGLE_API_KEY']
 
 app.jinja_env.undefined = StrictUndefined
+
+JS_TESTING_MODE = False
+
+@app.before_request
+def add_tests():
+    g.jasmine_tests = JS_TESTING_MODE
+
 
 @app.route('/')
 def index():
@@ -223,6 +230,9 @@ def process_sign_up():
 
 if __name__ == "__main__":
     app.debug = True
+    import sys
+    if sys.argv[-1] == "jstest":
+        JS_TESTING_MODE = True
     app.jinja_env.auto_reload = app.debug
     connect_to_db(app) 
     # Use the DebugToolbar

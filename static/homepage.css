@@ -46,7 +46,7 @@
 }
 
 #service-search {
-  background-color: #b4b1bd;
+  background-color: #ADB1BD;
   height: 1000px;
   width: 100%;
   background-attachment: fixed;
@@ -63,12 +63,13 @@
 .container { 
   position: relative;
   width: 200px; 
-  height: 150px; 
+  height: 175px; 
   float: left; 
   display: inline-block;
   margin-right: 30px;
   margin-top: 30px;
   text-align: center;
+  border: thin solid gray;
 }
 
 .checkbox { 

@@ -49,7 +49,7 @@
       I'm looking for:<br><br><br>
       {% for service in services %}
       <div class="container">
-        <div class='img-container'><img src="{{ service.picture }}" class='images'></div>
+        <div class='img-container'><img src="/static/img/{{ service.name }}1.png" class='images'></div>
         <input type='checkbox' class='checkbox' name='service' value='{{ service.service_id }}' id ='{{ service.service_id }}' required>
         <p class='img-label'>{{ service.name }}</p>
       </div>

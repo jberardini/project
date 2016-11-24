@@ -11,7 +11,7 @@ from api_call import get_geocode, create_service_list
 import json
 import geoalchemy2
 from sqlalchemy import and_
-from db_queries import query_from_address, send_fav_to_db
+from db_queries import query_from_address, send_fav_to_db, get_rec_list, get_favs_info, get_favs_list
 
 app = Flask(__name__)
 
@@ -88,7 +88,7 @@ def set_favorite():
     service_id = request.args.get('service_id', 0, type=int)
     name = request.args.get('name', 0, type=str)
     neighborhood = request.args.get('neighborhood', 0, type=str)
-    print neighborhood
+
     url = request.args.get('url', 0, type=str)
     lat = request.args.get('lat', 0, type=float)
     lng = request.args.get('lng', 0, type=float)
@@ -119,26 +119,11 @@ def get_fav_place_info():
     neighborhood = "{}, {}, {}".format(user.neighborhood.name, user.neighborhood.city,user.neighborhood.state)
     coordinates = json.loads(db.session.scalar(geoalchemy2.functions.ST_AsGeoJSON(user.neighborhood.geom)))
 
+    favs = get_favs_list(user)
+    recs = get_rec_list(favs)
 
 
-    fav_places = user.fav_places
-    service_ids = []
-    fav_place_info={}
-    for fav_place in fav_places:
-        service_ids.append(fav_place.service_id)
-        fav_place_info[fav_place.name]={'url': fav_place.url,
-                                        'lat': fav_place.lat,
-                                        'lng': fav_place.lng,
-                                        'picture': fav_place.service.picture}
-
-
-    services = db.session.query(Service).all()
-    all_service_ids = []
-    for service in services:
-        all_service_ids.append(service.service_id)
-    
-    recs = set(all_service_ids) ^ set(service_ids)
-    
+    fav_place_info = get_favs_info(favs)
     neighborhood_location = get_geocode(neighborhood, api_key)
     recs_info = create_service_list(recs, neighborhood)
 

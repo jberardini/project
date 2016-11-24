@@ -2,6 +2,8 @@
 
 <html>
   <head>
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <title>{% block title %} {% endblock %}</title>
   </head>
   <script src="http://code.jquery.com/jquery.js"></script>
@@ -21,16 +23,20 @@
   {% endblock %}
 
   <body>
-    <header>
-     <a href="/">Home</a>
-      {% if 'user_id' in session %}
-        <a href='/logged-out'>Log out</a>
-        <a href="/user/{{ session['user_id'] }}">See your places</a>
-      {% else %}
-        <a href="/sign-up">Create an account</a>
-        <a href="/login" id='logged-out'>Log in</a>
-      {% endif %}
-    </header>
+    <nav class="navbar navbar-default">
+     <div class="container-fluid">  
+         <ul class="nav navbar-nav navbar">
+          <li><a class="navbar-brand" href="/">Home</a></li>
+           {% if 'user_id' in session %}
+             <li><a href='/logged-out'>Log out</a></li>
+             <li><a href="/user/{{ session['user_id'] }}">See your places</a></li>
+           {% else %}
+             <li><a href="/sign-up">Create an account</a></li>
+             <li><a href="/login" id='logged-out'>Log in</a></li>
+           {% endif %}
+         </ul>
+         </div>
+       </nav>
 
     <!-- Show flashed messges -->
     {% with messages = get_flashed_messages() %}

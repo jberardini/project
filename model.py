@@ -116,7 +116,11 @@ def example_data():
 
     jill = User(email='jill@gmail.com', password='easy', first_name='Jill', neighborhood_id=1)
 
-    db.session.add_all([mission, pacheights, castro, hair_salon, dry_cleaning, doctor, nail_salon, jill])
+
+    new_favorite = FavPlace(name='Jill\'s World', user_id=1, neighborhood_id=1, service_id=1, 
+                            url='jillsworld.com', lat= 37, lng = -122)
+
+    db.session.add_all([mission, pacheights, castro, hair_salon, dry_cleaning, doctor, nail_salon, jill, new_favorite])
     db.session.commit()
 
 

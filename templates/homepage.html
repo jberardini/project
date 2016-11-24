@@ -11,34 +11,39 @@
 
 {% block content %}
   <div id='welcome-page'>
-    <h1>Welcome to the Neighborhood</h1>
-    <p>Get going fast in your new neighborhood with our recommendations</p>
-    <a class='jumper' href='#search-option'>Next</a>
+    <div id='welcome-content' class="col-xs-offset-2 col-xs-8">
+      <h1>Welcome to the Neighborhood</h1>
+      <p>Get going fast in your new neighborhood with our recommendations</p>
+      <a class='jumper' href='#search-option'>Next</a>
+    </div>
   </div>
 
   <div id='search-option'>
-    <form id='geo-search'>
-      <p>I'd like to search by:</p>
-      <input type='radio' name='search-type' id='neighborhood-search'>Neighborhood <br>
-      <input type='radio' name='search-type' id='address-search'>Address<br>
-      <p hidden class='neighborhood-search'>What neighborhood do you live in?</p><br>
-      <select name='neighborhood' id='neighborhood' class='neighborhood-search' hidden>
-        <option value='blank' selected='selected'></option>
-        {% for neighborhood in neighborhoods %}
-          {% if neighborhood.county == 'San Francisco' %}
-            <option value="{{ neighborhood.neighborhood_id }}"> 
-            {{ neighborhood.name }}
-            </option>
-          {% endif %}
-        {% endfor %} 
-      </select><br>
-      <p hidden class='address-search'> What is your address? </p><br>
-      <input type='text' name='address' id='address' class='address-search' hidden><br><br>
-    </form>
-    <button><a class='jumper' href='#service-search'>Go</a></button>
+    <div id='search-option-content' class="col-xs-offset-2 col-xs-8">
+      <form id='geo-search'>
+        <p>I'd like to search by:</p>
+        <input type='radio' name='search-type' id='neighborhood-search'>
+        <label for='neighborhood-search'> Neighborhood </label>
+        <div></div>
+        <input type='radio' name='search-type' id='address-search'>
+        <label for='address-search'> Address </label><br><br>
+        <p hidden class='neighborhood-search'>What neighborhood do you live in?</p><br>
+        <select name='neighborhood' id='neighborhood' class='neighborhood-search' hidden>
+          <option value='blank' selected='selected'></option>
+          {% for neighborhood in neighborhoods %}
+            {% if neighborhood.county == 'San Francisco' %}
+              <option value="{{ neighborhood.neighborhood_id }}"> 
+              {{ neighborhood.name }}
+              </option>
+            {% endif %}
+          {% endfor %} 
+        </select><br>
+        <p hidden class='address-search'> What is your address? </p><br>
+        <input type='text' name='address' id='address' class='address-search' hidden><br><br>
+      </form>
+      <button><a class='jumper' href='#service-search' hidden id='geo-go'>Go</a></button>
+    </div>  
   </div>
-  <br>
-
   <div id='service-search'>
     <form>
       I'm looking for:<br><br><br>

@@ -5,6 +5,23 @@
   background-attachment: fixed;
 }
 
+#welcome-content {
+  display: inline-block;
+  text-align: center;
+  margin-top: 400px;
+  font-family: 'Raleway', sans-serif;
+  color: white;
+}
+
+#welcome-content h1 {
+  font-size: 75px;
+}
+
+#welcome-content p, #welcome-content a {
+  font-size: 25px;
+}
+
+
 #search-option {
   background-image: url('img/sf2.jpg');
   height: 1000px;
@@ -12,8 +29,24 @@
   background-attachment: fixed;   
 }
 
+#search-option-content {
+  display: inline-block;
+  margin-top: 300px;
+  font-family: 'Raleway', sans-serif;
+  text-align: center;
+}
+
+#search-option-content p, #search-option-content label {
+  color: white;
+  font-size: 35px;
+}
+
+#search-option-content input {
+  font-size: 20px;
+}
+
 #service-search {
-  background-image: url('img/sf4.jpg');
+  background-color: #b4b1bd;
   height: 1000px;
   width: 100%;
   background-attachment: fixed;
@@ -36,8 +69,6 @@
   margin-right: 30px;
   margin-top: 30px;
   text-align: center;
-  border: thin solid gray;
-  background-color: #cccccc;
 }
 
 .checkbox { 
@@ -52,7 +83,7 @@
 }
 
 .img-label {
-  margin: 10px 25px 0px 25px;
+  margin: 10px 20px 0px 25px;
   display: inline-block;
 }
 
@@ -73,4 +104,8 @@
 #results {
   width: 100%; 
   overflow: hidden;
+}
+
+h1, h2, form {
+  font-family: 'Raleway', sans-serif;
 }

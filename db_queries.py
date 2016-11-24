@@ -3,6 +3,7 @@ import geoalchemy2
 
 def query_from_address(address_location):
     """Finds which neighborhood an address is located in"""
+    
     point1 = 'POINT(' + str(address_location['lng']) + " " + str(address_location['lat'])+ ')'
 
     point = geoalchemy2.elements.WKTElement(point1, srid=4326)
@@ -27,3 +28,45 @@ def send_fav_to_db(neighborhood_name, city, name, user_id, service_id, url, lat,
         place = place_search[0]
         db.session.delete(place)
     db.session.commit() 
+
+
+def get_favs_list(user):
+    """Gets a user's favorite places"""
+
+    fav_places = user.fav_places
+
+    return fav_places
+
+
+def get_rec_list(fav_places):
+    "Returns a list of services to recommend"
+
+
+    service_ids = []
+
+    for fav_place in fav_places:
+        service_ids.append(fav_place.service_id)
+
+    services = db.session.query(Service).all()
+
+    all_service_ids = []
+
+    for service in services:
+        all_service_ids.append(service.service_id)
+    
+    recs = set(all_service_ids) ^ set(service_ids)
+
+    return recs
+
+def get_favs_info(favs_list):
+    """Returns a list of information about favorite places"""
+
+    fav_place_info={}
+
+    for fav_place in favs_list:
+        fav_place_info[fav_place.name]={'url': fav_place.url,
+                                        'lat': fav_place.lat,
+                                        'lng': fav_place.lng,
+                                        'picture': fav_place.service.picture}
+
+    return fav_place_info

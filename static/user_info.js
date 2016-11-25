@@ -4,15 +4,15 @@ var map;
 function createSuggestedElement(rec, rec_info, results) {
   // creating html element
   var $li = $("<li></li>");
-  var $img = $("<img></img>");
-  var $a = $("<a></a>")
+  var $img = $("<img></img><div class=space></div>");
+  var $a = $("<a target=_blank></a>")
   var $button = $('<button></button>');
   var name = rec_info.name 
   var imgUrl =  '/../' + rec_info.picture;
 
   //setting attributes of html element
   $img.attr('src', imgUrl);
-  $a.html(rec_info.name)
+  $a.html("  "+rec_info.name+"  ")
   $a.attr('href', rec_info.url)
   $button.html('add to favorites')
 

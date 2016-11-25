@@ -19,50 +19,49 @@
   </div>
 
   <div id='search-option'>
-    <div id='search-option-content' class="col-xs-offset-2 col-xs-8">
-      <form id='geo-search'>
-        <p>I'd like to search by:</p>
+    <form id='geo-search' class="col-xs-offset-4 col-xs-4">
+      <p class='explanation'>I'd like to search by:</p>
+      <input type='radio' name='search-type' id='neighborhood-search'>
+      <label for='neighborhood-search'  class='search-type'> Neighborhood </label><br>
+      <input type='radio' name='search-type' id='address-search'>
+      <label for='address-search' class='search-type'> Address </label><br><br>
 
-          <input type='radio' name='search-type' id='neighborhood-search'>
-          <label for='neighborhood-search'> Neighborhood </label>
-          <div></div>
-          <input type='radio' name='search-type' id='address-search'>
-          <label for='address-search'> Address </label><br><br>
-          <p hidden class='neighborhood-search'>What neighborhood do you live in?</p><br>
-          <select name='neighborhood' id='neighborhood' class='neighborhood-search' hidden>
-            <option value='blank' selected='selected'></option>
-            {% for neighborhood in neighborhoods %}
-              {% if neighborhood.county == 'San Francisco' %}
-                <option value="{{ neighborhood.neighborhood_id }}"> 
-                {{ neighborhood.name }}
-                </option>
-              {% endif %}
-            {% endfor %} 
-          </select><br>
-        <div class='input-content'>
-          <p hidden class='address-search'> What is your address? </p><br>
-          <p class='aligners'>
-            <label for='address' class='address-search' hidden>Address: </label>
-            <input type='text' name='address' id='address' class='address-search' hidden><br>
-          </p>
-          <p class='aligners'>
-            <label for='city' class='address-search' hidden>City: </label>
-            <input type='text' name='city' id='city' class='address-search' hidden><br>
-          </p>
-          <p class='aligners'>
-            <label for='state' class='address-search' hidden>State: </label>
-            <input type='text' name='state' id='state' class='address-search' hidden><br>
-          </p>
-        </div>
-      </form>
-      <button><a class='jumper' href='#service-search' hidden id='geo-go'>Go</a></button>
-    </div>  
+      <p hidden class='neighborhood-search'>What neighborhood do you live in?</p><br>
+
+      <select name='neighborhood' id='neighborhood' class='neighborhood-search' hidden>
+        <option value='blank' selected='selected'></option>
+        {% for neighborhood in neighborhoods %}
+          {% if neighborhood.county == 'San Francisco' %}
+            <option value="{{ neighborhood.neighborhood_id }}"> 
+            {{ neighborhood.name }}
+            </option>
+          {% endif %}
+        {% endfor %} 
+      </select><br>
+
+      <p hidden class='address-search'> What is your address? </p><br>
+      <div id='address-inputs' class='address-search' hidden>
+        <p class='aligners' class='address-search' hidden>
+          <label for='address' class='address-search' hidden>Address: </label>
+          <input type='text' name='address' id='address' class='address-search' hidden><br>
+        </p>
+        <p class='aligners' class='address-search' hidden>
+          <label for='city' class='address-search' hidden>City: </label>
+          <input type='text' name='city' id='city' class='address-search' hidden><br>
+        </p>
+        <p class='aligners' class='address-search' hidden>
+          <label for='state' class='address-search' hidden>State: </label>
+          <input type='text' name='state' id='state' class='address-search' hidden><br>
+        </p>
+      </div>
+      <button class='geo-go' hidden><a class='jumper' href='#service-search'>Go</a></button> 
+    </form> 
   </div>
 
-
+ 
 
   <div id='service-search'>
-    <p id='service-intro'>I'm looking for:</p><br><br>
+    <p id='service-intro' class='explanation'>I'm looking for:</p><br>
     <form>
       {% for service in services %}
       <div class="container">
@@ -79,10 +78,6 @@
     </div>
   </div>
   
-
-
-
-
 
   <div id ='results'></div>
     <div id='neighborhood-welcome'></div>

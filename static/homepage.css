@@ -1,3 +1,5 @@
+/*Slide 1 Tags*/
+
 #welcome-page {
   background-image: url('img/sf_skyline.jpg');
   height: 1000px;
@@ -22,6 +24,7 @@
   color: white;
 }
 
+/*Slide 2 Tags*/
 
 #search-option {
   background-image: url('img/sf2.jpg');
@@ -30,45 +33,45 @@
   background-attachment: fixed;   
 }
 
-#search-option-content {
+#geo-search {
   display: inline-block;
   margin-top: 300px;
   font-family: 'Raleway', sans-serif;
-  text-align: center;
+  text-align: left;
 }
 
-.input-content {
-  text-align: left;
-  display: table;
-  margin-left: 358px;
+#geo-search p {
+  color: white;
+  font-size: 35px;
+}
+
+#geo-search label {
+  font-size: 16px;
+  color: black;
+}
+
+#address-inputs label {
+  display: table-cell;
+}
+
+#address-inputs input {
+  font-size: 16px;
+  color: black;
+  display: table-cell;
 }
 
 .aligners {
   display: table-row;
 }
 
-.address-search label {
-  display: table-cell;
-  text-align: left;
+#address-inputs {
+  display: none;
 }
 
-.address-search input {
-  display: table-cell;
-  text-align: left;
-}
-
-
-#search-option-content p, #search-option-content label {
-  color: white;
-  font-size: 35px;
-}
-
-#search-option-content input {
-  font-size: 20px;
-}
+/*Slide 3 Tags*/
 
 #service-search {
-  background-color: #83848D;
+  background-color: #8A8B8F;
   height: 1000px;
   width: 100%;
   background-attachment: fixed;
@@ -125,14 +128,16 @@
   margin-top: 35px;
 }
 
-
 #search {
   display: block;
 }
 
+/*Slide 4 Tags*/
+
 #new-search-bar {
   width: 300px; 
   float: left;
+
 }
 
 #map {
@@ -143,4 +148,12 @@
 #results {
   width: 100%; 
   overflow: hidden;
+}
+
+#results input {
+  color: black;
+}
+
+#results label {
+  color: black;
 }

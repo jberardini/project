@@ -2,3 +2,11 @@
     width: 75%;
     height: 800px;
 }
+
+* {
+  font-family: 'Raleway', sans-serif;
+}
+
+.space {
+    display: inline-block;
+}

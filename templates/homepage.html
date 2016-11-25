@@ -22,31 +22,48 @@
     <div id='search-option-content' class="col-xs-offset-2 col-xs-8">
       <form id='geo-search'>
         <p>I'd like to search by:</p>
-        <input type='radio' name='search-type' id='neighborhood-search'>
-        <label for='neighborhood-search'> Neighborhood </label>
-        <div></div>
-        <input type='radio' name='search-type' id='address-search'>
-        <label for='address-search'> Address </label><br><br>
-        <p hidden class='neighborhood-search'>What neighborhood do you live in?</p><br>
-        <select name='neighborhood' id='neighborhood' class='neighborhood-search' hidden>
-          <option value='blank' selected='selected'></option>
-          {% for neighborhood in neighborhoods %}
-            {% if neighborhood.county == 'San Francisco' %}
-              <option value="{{ neighborhood.neighborhood_id }}"> 
-              {{ neighborhood.name }}
-              </option>
-            {% endif %}
-          {% endfor %} 
-        </select><br>
-        <p hidden class='address-search'> What is your address? </p><br>
-        <input type='text' name='address' id='address' class='address-search' hidden><br><br>
+
+          <input type='radio' name='search-type' id='neighborhood-search'>
+          <label for='neighborhood-search'> Neighborhood </label>
+          <div></div>
+          <input type='radio' name='search-type' id='address-search'>
+          <label for='address-search'> Address </label><br><br>
+          <p hidden class='neighborhood-search'>What neighborhood do you live in?</p><br>
+          <select name='neighborhood' id='neighborhood' class='neighborhood-search' hidden>
+            <option value='blank' selected='selected'></option>
+            {% for neighborhood in neighborhoods %}
+              {% if neighborhood.county == 'San Francisco' %}
+                <option value="{{ neighborhood.neighborhood_id }}"> 
+                {{ neighborhood.name }}
+                </option>
+              {% endif %}
+            {% endfor %} 
+          </select><br>
+        <div class='input-content'>
+          <p hidden class='address-search'> What is your address? </p><br>
+          <p class='aligners'>
+            <label for='address' class='address-search' hidden>Address: </label>
+            <input type='text' name='address' id='address' class='address-search' hidden><br>
+          </p>
+          <p class='aligners'>
+            <label for='city' class='address-search' hidden>City: </label>
+            <input type='text' name='city' id='city' class='address-search' hidden><br>
+          </p>
+          <p class='aligners'>
+            <label for='state' class='address-search' hidden>State: </label>
+            <input type='text' name='state' id='state' class='address-search' hidden><br>
+          </p>
+        </div>
       </form>
       <button><a class='jumper' href='#service-search' hidden id='geo-go'>Go</a></button>
     </div>  
   </div>
+
+
+
   <div id='service-search'>
+    <p id='service-intro'>I'm looking for:</p><br><br>
     <form>
-      I'm looking for:<br><br><br>
       {% for service in services %}
       <div class="container">
         <div class='img-container'><img src="/static/img/{{ service.name }}1.png" class='images'></div>
@@ -54,12 +71,19 @@
         <p class='img-label'>{{ service.name }}</p>
       </div>
       {% endfor %}
-      <br>
     </form>
     <br>
-    <button id='search'>Go</button>
+    <div style="clear:both;"></div>
+    <div class="button-format" class="col-xs-12">
+      <button id='search'>Go</button>
+    </div>
   </div>
   
+
+
+
+
+
   <div id ='results'></div>
     <div id='neighborhood-welcome'></div>
     <div id='new-search-bar'></div>

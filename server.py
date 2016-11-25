@@ -45,9 +45,12 @@ def get_yelp_info():
     neighborhood_id = request.args.get('neighborhood_id')
     services = request.args.getlist('services[]')
     address = request.args.get('address')
+    city = request.args.get('city')
+    state = request.args.get('state')
 
 
     if address:
+        address = '{}, {}, {}'.format(address, city, state)
         address_location = get_geocode(address, api_key)
         neighborhood_item = query_from_address(address_location)
 

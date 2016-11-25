@@ -19,6 +19,7 @@
 
 #welcome-content p, #welcome-content a {
   font-size: 25px;
+  color: white;
 }
 
 
@@ -36,6 +37,27 @@
   text-align: center;
 }
 
+.input-content {
+  text-align: left;
+  display: table;
+  margin-left: 358px;
+}
+
+.aligners {
+  display: table-row;
+}
+
+.address-search label {
+  display: table-cell;
+  text-align: left;
+}
+
+.address-search input {
+  display: table-cell;
+  text-align: left;
+}
+
+
 #search-option-content p, #search-option-content label {
   color: white;
   font-size: 35px;
@@ -46,10 +68,30 @@
 }
 
 #service-search {
-  background-color: #ADB1BD;
+  background-color: #83848D;
   height: 1000px;
   width: 100%;
   background-attachment: fixed;
+}
+
+.img-label {
+  display: inline-block;
+  font-size: 25px;
+  font-family: 'Raleway', sans-serif;
+  color: white;
+  font-weight: bold;
+  margin-bottom: 0px
+
+}
+
+#service-intro {
+  font-size: 48px;
+  font-family: 'Raleway', sans-serif;
+  color: white;
+}
+
+.button-content {
+  width: 100%;
 }
 
 #neighborhood-welcome {
@@ -58,35 +100,31 @@
 
 #new-service-search {
   height: 200px;
+  font-family: 'Raleway', sans-serif;
 }
 
 .container { 
   position: relative;
   width: 200px; 
   height: 175px; 
-  float: left; 
   display: inline-block;
   margin-right: 30px;
   margin-top: 30px;
   text-align: center;
-  border: thin solid gray;
+  background-color: #ADB1BD;
+  float: left;
 }
 
 .checkbox { 
   position: absolute; 
   top: 0px; 
   left: 0px;
-  display: inline-block;
 }
 
 .img-container {
-  margin: 25px 25px 25px 25px;
+  margin-top: 35px;
 }
 
-.img-label {
-  margin: 10px 20px 0px 25px;
-  display: inline-block;
-}
 
 #search {
   display: block;
@@ -105,8 +143,4 @@
 #results {
   width: 100%; 
   overflow: hidden;
-}
-
-h1, h2, form {
-  font-family: 'Raleway', sans-serif;
 }

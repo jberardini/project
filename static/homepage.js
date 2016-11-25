@@ -7,7 +7,9 @@ function getMap(evt) {
     return parseInt($(this).val());
   }).get();
   var address = $('#address').val();
-  $.get('/info.json', {'neighborhood_id': neighborhood_id, 'services': services, 'address': address}, createMap);       
+  var city = $('#city').val();
+  var state = $('#state').val();
+  $.get('/info.json', {'neighborhood_id': neighborhood_id, 'services': services, 'address': address, 'city': city, 'state': state}, createMap);       
 }
 
 function chooseNeighborhoodSearch() {

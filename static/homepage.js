@@ -31,7 +31,7 @@ function scrollWindow(evt) {
   evt.preventDefault();
   $('body, html').animate({
     scrollTop: $($(this).attr('href')).offset().top
-  }, 1000);
+  }, 800);
 }
 
 var moveItems = function() {
@@ -39,7 +39,7 @@ var moveItems = function() {
   $('.img-container').remove();
   $('#geo-search').appendTo('#new-search-bar');
   $('.geo-go').remove();
-  $('#service-search').appendTo('#new-search-bar').css('background-color', 'white');
+  $('#service-search').appendTo('#new-search-bar').css('background-color', 'white').css('padding-top', 0);
   $('.container').css('border-color', 'white').css('width', 300).css('margin-top', 0).css('height', 25).css('padding-top', 0).css('text-align', 'left').css('background-color', 'white')
   $('.img-label').css('margin-left', 30).css('margin-bottom', 2).css('margin-right', 2).css('margin-top', 2)
   $('.checkbox').css('position', 'relative').css('float', 'left')

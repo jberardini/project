@@ -36,7 +36,8 @@ function createSuggestedElement(rec, rec_info, results) {
                             'neighborhood': results.neighborhood_name,
                             'url': rec_info.url, 'lat': rec_info.lat,
                             'lng': rec_info.lng }, function() {
-                              console.log('Success!')
+                              $li.remove()
+                              $('#fav_places').append('<li>'+rec_info.name+'</li>');
                             });
   });
 

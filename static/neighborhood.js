@@ -23,7 +23,7 @@ function createMap(results) {
     var html = (
       '<div class="window-content">' +
          '<p>' + service_info.name + '</p>' +
-         '<p><b>Url: </b> <a href=' + service_info.url + ' target=_blank>Website</a></p>' +
+         '<p><b>Url: </b> <a href=' + service_info.url + ' target=_blank>Website</a></p><br>' +
          '<p><b>Add to Favorites:</b></p>' +
          '<img src=/static/img/like-1.png class=favorite data-url='+service_info.url+' data-neighborhood="'+results.name+'" id='+service_id+' data-name="'+service_info.name+'" data-lat='+service_info.lat+' data-lng='+service_info.lng+'>' +
       '</div>');

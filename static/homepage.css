@@ -2,15 +2,16 @@
 
 #welcome-page {
   background-image: url('img/sf_skyline.jpg');
-  height: 1000px;
-  width: 100%;
   background-attachment: fixed;
+  width: 100%;
+  height: 1000px;
+  background-size: cover;
 }
 
 #welcome-content {
   display: inline-block;
   text-align: center;
-  margin-top: 400px;
+  margin-top: 200px;
   font-family: 'Raleway', sans-serif;
   color: white;
 }
@@ -27,10 +28,11 @@
 /*Slide 2 Tags*/
 
 #search-option {
-  background-image: url('img/sf2.jpg');
-  height: 1000px;
+  background-image: url('img/sf5.jpg');
   width: 100%;
-  background-attachment: fixed;   
+  height: 1000px;
+  background-attachment: fixed;
+  background-size: cover;   
 }
 
 #geo-search {
@@ -71,10 +73,11 @@
 /*Slide 3 Tags*/
 
 #service-search {
-  background-color: #8A8B8F;
-  height: 1000px;
+  background-color: #51708E;
+  height: 1200px;
   width: 100%;
   background-attachment: fixed;
+  padding-top: 100px
 }
 
 .img-label {
@@ -114,7 +117,7 @@
   margin-right: 30px;
   margin-top: 30px;
   text-align: center;
-  background-color: #ADB1BD;
+  background-color: #53789E;
   float: left;
 }
 
@@ -156,4 +159,8 @@
 
 #results label {
   color: black;
+}
+
+#nav-bar-home {
+  font-family: 'Raleway', sans-serif;
 }

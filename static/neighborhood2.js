@@ -5,7 +5,7 @@ function createHomeInfoWindow(neighborhood, service_id, service_info) {
   var $windowhtml = $("<div></div>");
   var $bname = $("<p></p>");
   var $url = $("<a target=_blank>Visit website</a>");
-  var $fav_instructions = $("<p>Add to favorites: </p>");
+  var $fav_instructions = $("<br><p>Add to favorites: </p>");
   var $img = $("<img src=/static/img/like-1.png class=favorite></img>")
   $bname.html(service_info.name);
   $url.attr('href', service_info.url);

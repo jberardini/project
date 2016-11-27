@@ -143,9 +143,17 @@
 
 }
 
-#map {
+#map-container {
   height: 800px;
   margin-left:320px;
+  background-image: url('img/ajax-loading.gif') 
+}
+
+#map {
+  height: 800px;
+  top: -400px;
+  left: -25px;
+  z-index: 99 !important;
 }
 
 #results {
@@ -163,4 +171,9 @@
 
 #nav-bar-home {
   font-family: 'Raleway', sans-serif;
+}
+
+#loading {
+  margin-top: 400px;
+  margin-left: 500px;
 }

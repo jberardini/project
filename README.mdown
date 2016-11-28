@@ -7,6 +7,10 @@ PostgreSQL, PostGIS, GeoAlchemy2, SQLAlchemy, Python, Flask,  Jinja, Javascript,
 
 Screenshots
 ![alt text](static/img/homepage.png "Homepage")
+![alt text](static/img/address-search.png "Address Search")
+![alt text](static/img/service-search.png "Service Search")
+![alt text](static/img/map.png "Map")
+
 
 Installation instructions
 1. Download all files

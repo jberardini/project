@@ -1,0 +1,14 @@
+Project description
+Welcome to the Neighborhood helps newcomers quickly settle into a new neighborhood. The app uses Yelp's API to get recommendations for the types of businesses newbies might be in search of (e.g. dry-cleaning, grocery stores, coffee spots). Users can search for recommendations using either their neighborhood or their address. When provided with an address query, the app uses PostgreSQL's PostGIS extension to locate the address within a particular neighborhood. Users of Welcome to the Neighborhood can save their favorite places and get recommendations for other businesses they may be interested in.
+
+
+Tech stack
+PostgreSQL, PostGIS, GeoAlchemy2, SQLAlchemy, Python, Flask,  Jinja, Javascript, JQuery, Bootstrap, Jasmine, Unittest, AJAX, HTML/CSS
+
+Screenshots
+![alt text](static/img/homepage.png "Homepage")
+
+Installation instructions
+1. Download all files
+2. Pip install requirements.txt
+3. Run server.py from the command linez

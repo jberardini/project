@@ -77,7 +77,8 @@
   height: 1200px;
   width: 100%;
   background-attachment: fixed;
-  padding-top: 100px
+  padding-top: 100px;
+  padding-left: 25px;
 }
 
 .img-label {
@@ -114,7 +115,8 @@
   width: 200px; 
   height: 175px; 
   display: inline-block;
-  margin-right: 30px;
+  margin-left: 10px;
+  margin-right: 10px;
   margin-top: 30px;
   text-align: center;
   background-color: #53789E;
@@ -133,6 +135,7 @@
 
 #search {
   display: block;
+  margin: 2s0px;
 }
 
 /*Slide 4 Tags*/

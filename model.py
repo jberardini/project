@@ -40,7 +40,7 @@ class Neighborhood(db.Model):
     city = db.Column(db.String(64), nullable=False)
     name = db.Column(db.String(64), nullable=False)
     regionid = db.Column(db.Integer)
-    geom = db.Column(Geometry('MULTIPOLYGON', srid=4269), nullable=True)
+    geom = db.Column(Geometry('POLYGON', srid=4269), nullable=True)
 
     def __repr__(self):
         """Provides a representation of neighborhoods"""

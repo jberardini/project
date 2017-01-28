@@ -9,4 +9,4 @@ PostgreSQL, PostGIS, GeoAlchemy2, SQLAlchemy, Python, Flask,  Jinja, Javascript,
 Installation instructions
 1. Download all files
 2. Pip install requirements.txt
-3. Run server.py from the command linez
+3. Run server.py from the command line

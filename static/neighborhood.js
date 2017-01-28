@@ -1,6 +1,5 @@
 'use strict';
 
-
 function createMap(results) {
   $('#neighborhood-welcome').html('Welcome to'+ ' ' +String(results.name))
   var position = results.neighborhood

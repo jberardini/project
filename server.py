@@ -201,7 +201,6 @@ def process_sign_up():
     name, city, state = user_neighborhood.split(', ')
 
     neighborhood_id = db.session.query(Neighborhood.neighborhood_id).filter(and_(Neighborhood.name==name, Neighborhood.city==city)).one()
-    print neighborhood_id
     user = db.session.query(User).filter_by(email=email).all()
 
 

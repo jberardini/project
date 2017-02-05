@@ -5,17 +5,24 @@ Welcome to the Neighborhood helps newcomers quickly settle into a new neighborho
 ## Technologies
 PostgreSQL, PostGIS, GeoAlchemy2, SQLAlchemy, Python, Flask,  Jinja, Javascript, JQuery, Bootstrap, Jasmine, Unittest, AJAX, HTML/CSS
 
- ## Features
+## Features
 
-Welcome to the Neighborhood allows you to enter your neighborhood or your address,
-and to search for a number of services that you might need when you’re new to a neighborhood, like a dry cleaner, a grocery store, and a new coffee place. 
+Welcome to the Neighborhood allows you to enter your neighborhood or your address, and to search for a number of services that you might need when you’re new to a neighborhood, like a dry cleaner, a grocery store, and a new coffee place. 
+
 ![alt text](static/img/homepage.png "Homepage")
+
 Addresses are located within neighborhoods using the PostGIS extension to PostgreSQL. Neighborhood boundaries are based on .shp files created by Zillow.
+
 ![alt text](static/img/address-search.png "Address Search")
+
 Welcome to the Neighborhood uses Yelp's API to get recommendations for the services selected by the user.
+
 ![alt text](static/img/service-search.png "Service Search")
+
 The recommendations are displayed on a map using the Google Maps Javascript API.
+
 ![alt text](static/img/map.png "Map")
+
 Users of Welcome to the Neighborhood can also save favorite places, which are stored in the database and displayed on a map available on their user page. 
 
 ## Installation instructions
@@ -24,35 +31,41 @@ To run Welcome to the Neighborhood:
 1. Install PostgreSQL
 
 2. Clone or fork this repo:
+
 `https://github.com/jberardini/welcome-to-the-neighborhood`
 
 3. Create a virtual environment inside your Welcome to the Neighborhood directory
+
 `virtualenv env`
 `source env/bin/activate`
 
 4. Install dependencies
+
 `pip install -r requirements.txt`
 
-5. Sign up to use the (Yelp API https://www.yelp.com/developers/documentation/v2/authentication) and (Google Maps API https://developers.google.com/maps/documentation/javascript/get-api-key)
+5. Sign up to use the [Yelp API](https://www.yelp.com/developers/documentation/v2/authentication) and [Google Maps API](https://developers.google.com/maps/documentation/javascript/get-api-key)
 
 6. Save your API keys in a file called secrets.sh in this format:
+
 `export YELP_CONSUMER_KEY='YOURCONSUMERKEYHERE'
-export YELP_CONSUMER_SECRET='YOURSECRETHERE'
-export YELP_ACCESS_TOKEN_KEY='YOURKEYHERE'
-export YELP_ACCESS_TOKEN_SECRET='YOURTOKENHERE'
+`export YELP_CONSUMER_SECRET='YOURSECRETHERE'`
+`export YELP_ACCESS_TOKEN_KEY='YOURKEYHERE'`
+`export YELP_ACCESS_TOKEN_SECRET='YOURTOKENHERE'`
 
-
-export GOOGLE_API_KEY='YOUR KEY HERE'`
+`export GOOGLE_API_KEY='YOUR KEY HERE'`
 
 7. Source your secrets.sh file
+
 `source secrets.sh`
 
 8. Set up the database
+
 `createdb neighborhood`
 `python seed.py`
 `shp2pgsql -a -I -s 4269 neighborhoods.shp neighborhoods | psql -U [your username]`
 
 9. Run the app
+
 `python server.py`
 
 

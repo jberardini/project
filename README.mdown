@@ -28,43 +28,44 @@ Users of Welcome to the Neighborhood can also save favorite places, which are st
 ## Installation instructions
 To run Welcome to the Neighborhood:
 
-1. Install PostgreSQL
+Install PostgreSQL
 
-2. Clone or fork this repo:
+Clone or fork this repo:
 
 `https://github.com/jberardini/welcome-to-the-neighborhood`
 
-3. Create a virtual environment inside your Welcome to the Neighborhood directory
+Create a virtual environment inside your Welcome to the Neighborhood directory
 
 `virtualenv env`
+
 `source env/bin/activate`
 
-4. Install dependencies
+Install dependencies
 
 `pip install -r requirements.txt`
 
-5. Sign up to use the [Yelp API](https://www.yelp.com/developers/documentation/v2/authentication) and [Google Maps API](https://developers.google.com/maps/documentation/javascript/get-api-key)
+Sign up to use the [Yelp API](https://www.yelp.com/developers/documentation/v2/authentication) and [Google Maps API](https://developers.google.com/maps/documentation/javascript/get-api-key)
 
-6. Save your API keys in a file called secrets.sh in this format:
+Save your API keys in a file called secrets.sh in this format:
 
-`export YELP_CONSUMER_KEY='YOURCONSUMERKEYHERE'
+`export YELP_CONSUMER_KEY='YOURCONSUMERKEYHERE`
 `export YELP_CONSUMER_SECRET='YOURSECRETHERE'`
 `export YELP_ACCESS_TOKEN_KEY='YOURKEYHERE'`
 `export YELP_ACCESS_TOKEN_SECRET='YOURTOKENHERE'`
 
 `export GOOGLE_API_KEY='YOUR KEY HERE'`
 
-7. Source your secrets.sh file
+Source your secrets.sh file
 
 `source secrets.sh`
 
-8. Set up the database
+Set up the database
 
 `createdb neighborhood`
 `python seed.py`
 `shp2pgsql -a -I -s 4269 neighborhoods.shp neighborhoods | psql -U [your username]`
 
-9. Run the app
+Run the app
 
 `python server.py`
 

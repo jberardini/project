@@ -49,8 +49,11 @@ Sign up to use the [Yelp API](https://www.yelp.com/developers/documentation/v2/a
 Save your API keys in a file called secrets.sh in this format:
 
 `export YELP_CONSUMER_KEY='YOURCONSUMERKEYHERE`
+
 `export YELP_CONSUMER_SECRET='YOURSECRETHERE'`
+
 `export YELP_ACCESS_TOKEN_KEY='YOURKEYHERE'`
+
 `export YELP_ACCESS_TOKEN_SECRET='YOURTOKENHERE'`
 
 `export GOOGLE_API_KEY='YOUR KEY HERE'`
@@ -62,7 +65,9 @@ Source your secrets.sh file
 Set up the database
 
 `createdb neighborhood`
+
 `python seed.py`
+
 `shp2pgsql -a -I -s 4269 neighborhoods.shp neighborhoods | psql -U [your username]`
 
 Run the app

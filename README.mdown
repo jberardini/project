@@ -28,7 +28,7 @@ Users of Welcome to the Neighborhood can also save favorite places, which are st
 ## Installation instructions
 To run Welcome to the Neighborhood:
 
-Install PostgreSQL
+Install PostgreSQL and PostGIS
 
 Clone or fork this repo:
 
@@ -65,6 +65,10 @@ Source your secrets.sh file
 Set up the database
 
 `createdb neighborhood`
+
+In the PostgreSQL database:
+
+`CREATE EXTENSION postgis;`
 
 `python seed.py`
 
